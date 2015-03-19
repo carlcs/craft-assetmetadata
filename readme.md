@@ -1,24 +1,23 @@
+# Asset Metadata plugin for Craft
 
+Extracts all sort of metadata from your assets.
 
-Example:
+## Installation
 
-    {% set asset = entry.audioTracks.first() %}
-    {% set assetData = craft.assetMetadata.getData(asset) %}
+To install the plugin, copy the assetmetadata/ folder into craft/plugins/. Then go to Settings → Plugins and click the "Install" button next to "Asset Metadata".
 
-    <figure itemprop="track" itemscope itemtype="http://schema.org/MusicRecording">
-        <figcaption>
-            <span itemprop="byArtist">{{ assetData.tags.artist }}</span> -
-            <span itemprop="name">{{ assetData.tags.title }}</span>
-            <span itemprop="duration" content="{{ assetData.playtime_ISO8601 }}">{{ assetData.playtime_seconds }}</span>
-        </figcaption>
-        <audio controls src="{{ asset.url }}" itemprop="audio"></audio>
-    </figure>
+## Examples
 
-Example:
+JPG
 
-    {% set artist = craft.assetMetadata.getData(myAssetFileModel, 'artist') %}
+    {% set metadata = craft.assetMetadata.getData(asset, 'jpg.exif') %}
 
-ISO 8601 Interval String:
+    <span>{{ assetData.EXIF.FocalLengthIn35mmFilm ~ 'mm' }}</span>
+    <span>{{ 'f/' ~ assetData.EXIF.FNumber }}</span>
 
-    {% set duration = craft.assetMetadata.getData(myAssetFileModel, 'playtime_ISO8601') %}
-    {{ duration|date('%I:%s') }}
+MP3
+
+    {% set metadata = craft.assetMetadata.getData(myAssetFileModel) %}
+
+    <span itemprop="name">{{ metadata.title }}</span>
+    <span itemprop="duration" content="{{ metadata.playtime_ISO8601 }}">{{ metadata.playtime_string }}</span>

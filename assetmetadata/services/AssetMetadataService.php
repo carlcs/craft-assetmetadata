@@ -51,49 +51,10 @@ class AssetMetadataService extends BaseApplicationComponent
 			$this->_copyTagsToRoot($data);
 		}
 
-		// Add playtime property as DateInterval object.
-		$data['playtime_ISO8601'] = DateInterval::fromSeconds($data['playtime_seconds']);
+		// Add properties in pretty formats.
+		$this->_addBeautifiedProperties($data);
 
-		return $this->getValueByKey($property, $data);
-	}
-
-	// Protected Methods
-	// =========================================================================
-
-	/**
-	 * Traverse an array using dot notation.
-	 * https://selv.in/blog/traversing-arrays-using-dot-notation
-	 *
-	 * @param string $property
-	 * @param array $data
-	 * @return array|string|null
-	 */
-	protected function getValueByKey($property, array $data)
-	{
-		if (!is_string($property) || empty($property))
-		{
-			return $data;
-		}
-
-		if (strpos($property, '.') !== false)
-		{
-			$keys = explode('.', $property);
-
-			foreach ($keys as $innerKey)
-			{
-				if (!array_key_exists($innerKey, $data))
-				{
-					return null;
-				}
-
-				// Continue traversing the array.
-				$data = $data[$innerKey];
-			}
-
-			return $data;
-		}
-
-		return array_key_exists($property, $data) ? $data[$property] : null;
+		return $this->_getValueByKey($property, $data);
 	}
 
 	// Private Methods
@@ -141,6 +102,42 @@ class AssetMetadataService extends BaseApplicationComponent
 	}
 
 	/**
+	 * Traverse an array using dot notation.
+	 * https://selv.in/blog/traversing-arrays-using-dot-notation
+	 *
+	 * @param string $property
+	 * @param array $data
+	 * @return array|string|null
+	 */
+	private function _getValueByKey($property, array $data)
+	{
+		if (!is_string($property) || empty($property))
+		{
+			return $data;
+		}
+
+		if (strpos($property, '.') !== false)
+		{
+			$keys = explode('.', $property);
+
+			foreach ($keys as $innerKey)
+			{
+				if (!array_key_exists($innerKey, $data))
+				{
+					return null;
+				}
+
+				// Continue traversing the array.
+				$data = $data[$innerKey];
+			}
+
+			return $data;
+		}
+
+		return array_key_exists($property, $data) ? $data[$property] : null;
+	}
+
+	/**
 	 * Join tag metadata elements into a string.
 	 *
 	 * @param array &$data
@@ -148,10 +145,13 @@ class AssetMetadataService extends BaseApplicationComponent
 	 */
 	private function _flattenTags(&$data)
 	{
-		foreach ($data['comments_html'] as $property => $tags)
+		if (array_key_exists('comments_html', $data))
 		{
-			$tag = implode($this->_settings['tagSeparator'], $tags);
-			$data['tags']['all'][$property] = $tag;
+			foreach ($data['comments_html'] as $property => $tags)
+			{
+				$tag = implode($this->_settings['tagSeparator'], $tags);
+				$data['tags']['all'][$property] = $tag;
+			}
 		}
 	}
 
@@ -163,9 +163,63 @@ class AssetMetadataService extends BaseApplicationComponent
 	 */
 	private function _copyTagsToRoot(&$data)
 	{
-		foreach ($data['tags']['all'] as $property => $tag)
+		if (array_key_exists('tags', $data))
 		{
-			$data[$property] = $tag;
+			foreach ($data['tags']['all'] as $property => $tag)
+			{
+				$data[$property] = $tag;
+			}
 		}
+	}
+
+	/**
+	 * Add properties in pretty formats.
+	 *
+	 * @param array &$data
+	 * @return null
+	 */
+	private function _addBeautifiedProperties(&$data)
+	{
+		// Add `playtime_ISO8601` property (Craft DateInterval object).
+		if (isset($data['playtime_seconds']))
+		{
+			$data['playtime_ISO8601'] = DateInterval::fromSeconds($data['playtime_seconds']);
+		}
+
+		// Add `ExposureTimeRatio` property (string).
+		foreach (array('jpg', 'tiff') as $fileType)
+		{
+			if (isset($data[$fileType]['exif']['EXIF']['ExposureTime']))
+			{
+				$data[$fileType]['exif']['EXIF']['ExposureTimeRatio'] = $this->_float2rat($data[$fileType]['exif']['EXIF']['ExposureTime']);
+			}
+		}
+	}
+
+	/**
+	 * Converts a decimal number to a fraction.
+	 * http://jonisalonen.com/2012/converting-decimal-numbers-to-ratios/
+	 *
+	 * @param float $n
+	 * @param float $tolerance
+	 * @return string
+	 */
+	private function _float2rat($n, $tolerance = 1.e-6)
+	{
+		$h1=1; $h2=0;
+		$k1=0; $k2=1;
+		$b = 1/$n;
+
+		do
+		{
+			$b = 1/$b;
+			$a = floor($b);
+			$aux = $h1; $h1 = $a*$h1+$h2; $h2 = $aux;
+			$aux = $k1; $k1 = $a*$k1+$k2; $k2 = $aux;
+			$b = $b-$a;
+		}
+		while (abs($n-$h1/$k1) > $n*$tolerance);
+
+		return $h1.'/'.$k1;
 	}
 }
