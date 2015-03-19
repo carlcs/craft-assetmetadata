@@ -1,5 +1,7 @@
 # Asset Metadata plugin for Craft
 
+![Asset Metadata](https://github.com/carlcs/craft-assetmetadata/blob/master/assetmetadata.png)
+
 Extracts all sort of metadata from your assets.
 
 ## Installation
