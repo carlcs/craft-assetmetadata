@@ -1,0 +1,9 @@
+{
+	"config": {
+		"vendor-dir": "assetmetadata/vendor",
+		"preferred-install": "dist"
+	},
+	"require": {
+		"phansys/getid3": "2.1.*@dev"
+	}
+}
