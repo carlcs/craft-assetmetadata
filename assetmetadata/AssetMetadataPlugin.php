@@ -31,16 +31,16 @@ class AssetMetadataPlugin extends BasePlugin
 			'extraInfo'      => array(AttributeType::Bool, 'default' => true),
 			'md5Data'        => array(AttributeType::Bool, 'default' => false),
 			'sha1Data'       => array(AttributeType::Bool, 'default' => false),
-			'gpsSecDecimals' => array(AttributeType::Number, 'min' => 0, 'default' => 3),
+			'gpsSecDecimals' => array(AttributeType::Number, 'min' => 0, 'default' => 1),
 			'gpsSecDecPoint' => array(AttributeType::String, 'default' => '.'),
 		);
 	}
 
 	public function getSettingsHtml()
 	{
-		return craft()->templates->render('assetmetadata/_settings', array(
-			'settings' => $this->getSettings(),
-		));
+		// return craft()->templates->render('assetmetadata/_settings', array(
+		// 	'settings' => $this->getSettings(),
+		// ));
 	}
 
 	public function addTwigExtension()
