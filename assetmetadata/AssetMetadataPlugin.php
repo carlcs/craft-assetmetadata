@@ -31,6 +31,8 @@ class AssetMetadataPlugin extends BasePlugin
 			'extraInfo'      => array(AttributeType::Bool, 'default' => true),
 			'md5Data'        => array(AttributeType::Bool, 'default' => false),
 			'sha1Data'       => array(AttributeType::Bool, 'default' => false),
+			'gpsSecDecimals' => array(AttributeType::Number, 'min' => 0, 'default' => 3),
+			'gpsSecDecPoint' => array(AttributeType::String, 'default' => '.'),
 		);
 	}
 
