@@ -1,8 +1,31 @@
 <?php
 
 return array(
+        'Title' => 'Titel',
+        'Artist' => 'Interpret',
+        'Album' => 'Album',
+        'Year' => 'Jahr',
+        'Playtime' => 'Dauer',
+        'Camera Make' => 'Kamera Hersteller',
+        'Camera Model' => 'Kamera Modell',
+        'ISO' => 'ISO',
+        'Focal Length' => 'Brennweite',
+        'Aperture' => 'Blendenwert',
+        'Shutter Speed' => 'Verschlusszeit',
+        'Original Date' => 'Aufnahmedatum',
+        'GPS' => 'GPS',
         'N' => 'N',
         'S' => 'S',
         'W' => 'W',
         'E' => 'O',
+
+        // 'Metadata Variable' => '',
+        // 'Set the “metadata” variable manually' => '',
+        // 'Set the “metadata” variable manually. You can access the element this field is added to via an “object” variable.' => '',
+        // 'Metadata Properties' => '',
+        // 'Define the metadata properties and set their default values. You can access the asset’s metadata via a “metadata” variable.' => '',
+        // 'Add a property' => '',
+        // 'Name' => '',
+        // 'Handle' => '',
+        // 'Default Value' => '',
 );

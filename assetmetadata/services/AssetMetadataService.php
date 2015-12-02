@@ -21,7 +21,7 @@ class AssetMetadataService extends BaseApplicationComponent
 	{
 		if (!($asset instanceof AssetFileModel))
 		{
-			throw new Exception(Craft::t('(Asset Metadata) The plugin only works with asset models.'));
+			throw new Exception('(Asset Metadata) The plugin only works with asset models.');
 		}
 
 		// TODO: Support remote asset sources.
@@ -56,7 +56,7 @@ class AssetMetadataService extends BaseApplicationComponent
 
 		if ($sourceType->isRemote())
 		{
-			throw new Exception(Craft::t('(Asset Metadata) The plugin currently works with local assets only.'));
+			throw new Exception('(Asset Metadata) The plugin currently works with local assets only.');
 		}
 
 		return $imageSourcePath;

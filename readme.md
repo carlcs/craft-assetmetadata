@@ -50,7 +50,7 @@ Default Value is a full Twig template that will be parsed when you save the elem
 
 By default the field gets the metadata from the asset the field is added to and makes a variable "metadata" available for use in the Default Values configuration column.
 
-If the field is used with another element type, you need to manually set a "metadata" variable. Use the plugin's `getData` function and pass in the asset model you want to get the data from. Here's how you would get the data from an assets field “myImages”.
+If the field is used with another element type, you need to manually set a "metadata" variable. Use the plugin's `getAssetMetadata` function and pass in the asset model you want to get the data from. Here's how you would get the data from an assets field “myImages”.
 
 ```twig
 {% set metadata = getAssetMetadata(object.myImages.first()) %}
