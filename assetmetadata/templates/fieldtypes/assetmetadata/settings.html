@@ -1,0 +1,46 @@
+{% import '_includes/forms' as forms %}
+
+{{ forms.checkboxField({
+	label: 'Set the “metadata” variable manually'|t,
+	name: 'customMetadataVariable',
+	checked: settings.customMetadataVariable,
+	toggle: 'metadataVariableContainer'
+}) }}
+
+<div id="metadataVariableContainer" class="nested-fields{% if not settings.customMetadataVariable %} hidden{% endif %}">
+	{{ forms.textField({
+		label: 'Metadata Variable'|t,
+        instructions: 'Set the “metadata” variable manually. You can access the element this field is added to via an “object” variable.'|t,
+		id: 'metadataVariable',
+		name: 'metadataVariable',
+        class: 'code',
+		value: settings.metadataVariable,
+	}) }}
+</div>
+
+{{ forms.editableTableField({
+	label: 'Metadata Properties'|t,
+	instructions: 'Define the metadata properties and set their default values. You can access the asset’s metadata via a “metadata” variable.'|t,
+	id: 'properties',
+	name: 'properties',
+	addRowLabel: 'Add a property'|t,
+	cols: {
+		name: {
+			heading: 'Name'|t,
+			type: 'singleline',
+			autopopulate: 'handle'
+		},
+		handle: {
+			heading: 'Handle'|t,
+			type: 'singleline',
+			class: 'code'
+		},
+		defaultValue: {
+			heading: 'Default Value'|t,
+			type: 'singleline',
+			class: 'code',
+			width: '60%'
+		}
+	},
+	rows: properties
+}) }}

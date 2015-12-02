@@ -1,0 +1,20 @@
+[
+  {
+    "version": "2.0",
+    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.0.zip",
+    "date": "2015-12-02T07:00:00-01:00",
+    "notes": [
+      "[Added] Added Craft 2.5 plugin configurations.",
+      "[Added] Added an Asset Metadata field type to extract and store metadata from an asset on element save.",
+      "[Improved] getID3 can now be configured from the plugin's assetmetadata.php configuration file."
+    ]
+  },
+  {
+    "version": "1.0",
+    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v1.0.zip",
+    "date": "2015-03-19T13:00:00-01:00",
+    "notes": [
+      "First release"
+    ]
+  }
+]

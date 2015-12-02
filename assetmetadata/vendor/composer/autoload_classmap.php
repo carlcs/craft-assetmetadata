@@ -6,4 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'getID3' => $vendorDir . '/james-heinrich/getid3/getid3/getid3.php',
+    'getid3_exception' => $vendorDir . '/james-heinrich/getid3/getid3/getid3.php',
+    'getid3_handler' => $vendorDir . '/james-heinrich/getid3/getid3/getid3.php',
 );

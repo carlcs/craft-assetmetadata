@@ -1,9 +1,8 @@
 {
 	"config": {
-		"vendor-dir": "assetmetadata/vendor",
-		"preferred-install": "dist"
+		"vendor-dir": "assetmetadata/vendor"
 	},
 	"require": {
-		"phansys/getid3": "2.1.*@dev"
+		"james-heinrich/getid3": "^1.9"
 	}
 }

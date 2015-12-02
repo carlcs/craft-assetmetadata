@@ -1,0 +1,24 @@
+{% import '_includes/forms' as forms %}
+
+<input type="hidden" name="{{ name }}" value="">
+
+{% for id, property in properties %}
+
+    {% set value = (values[id] is defined ? values[id] : '') %}
+
+    <div class="metadata-property">
+        <div class="metadata-property-heading">
+            <label>{{ property.name }}</label>
+        </div>
+
+        {% set config = {
+            id: null,
+            name: name~'['~id~']',
+            value: value,
+            class: 'nicetext',
+        } %}
+
+        {{ forms.text(config) }}
+    </div>
+
+{% endfor %}
