@@ -97,7 +97,7 @@ Converts an EXIF GPS point location into sexagesimal format (ISO 6709).
 :   Number of digits after the decimal point for the seconds value (Default value is `0`).
 
 `gpsSecDecPoint` (optional)
-:   The character used as the decimal point (Default value is `'.'`).
+:   The character used as the decimal point (Default value is `.`).
 
 ### formatExifDate
 
