@@ -63,7 +63,7 @@ class AssetMetadataPlugin extends BasePlugin
                 {
                         $fieldType = $field->getFieldType();
 
-                        if ($fieldType->getClassHandle() == 'AssetMetadata')
+                        if ($fieldType && $fieldType->getClassHandle() == 'AssetMetadata')
                         {
                                 $fieldSettings = $fieldType->getSettings();
 
