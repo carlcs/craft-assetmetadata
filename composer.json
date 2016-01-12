@@ -1,8 +1,8 @@
 {
-	"config": {
-		"vendor-dir": "assetmetadata/vendor"
-	},
-	"require": {
-		"james-heinrich/getid3": "^1.9"
-	}
+  "config": {
+    "vendor-dir": "assetmetadata/vendor"
+  },
+  "require": {
+    "james-heinrich/getid3": "^1.9"
+  }
 }
