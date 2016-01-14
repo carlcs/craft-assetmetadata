@@ -19,16 +19,27 @@ class AssetMetadataService extends BaseApplicationComponent
          */
         public function getAssetMetadata($asset, $property = null)
         {
+                $getId3 = $this->_getGetId3();
+
                 if (!($asset instanceof AssetFileModel))
                 {
                         throw new Exception('(Asset Metadata) The plugin only works with asset models.');
                 }
 
-                // TODO: Support remote asset sources.
-                $path = $this->_getLocalImageSource($asset);
+                $sourceType = craft()->assetSources->getSourceTypeById($asset->sourceId);
 
-                $getId3 = $this->_getGetId3();
-                $metadata = $getId3->analyze($path);
+                if ($sourceType->isRemote())
+                {
+                        // Makes a local copy of the file if it's from a remote source.
+                        $localCopy = $sourceType->getLocalCopy($asset);
+                        $metadata = $getId3->analyze($localCopy);
+                        IOHelper::deleteFile($localCopy);
+                }
+                else
+                {
+                        $path = $sourceType->getImageSourcePath($asset);
+                        $metadata = $getId3->analyze($path);
+                }
 
                 // Merges ID3 tags and stores them in a "comments" property.
                 getid3_lib::CopyTagsToComments($metadata);
@@ -41,26 +52,6 @@ class AssetMetadataService extends BaseApplicationComponent
 
         // Private Methods
         // =========================================================================
-
-        /**
-         * Returns the path of an asset.
-         *
-         * @param AssetFileModel $asset
-         *
-         * @return string
-         */
-        private function _getLocalImageSource(AssetFileModel $asset)
-        {
-                $sourceType = craft()->assetSources->getSourceTypeById($asset->sourceId);
-                $imageSourcePath = $sourceType->getImageSourcePath($asset);
-
-                if ($sourceType->isRemote())
-                {
-                        throw new Exception('(Asset Metadata) The plugin currently works with local assets only.');
-                }
-
-                return $imageSourcePath;
-        }
 
         /**
          * Returns a new, configured getID3 instance.

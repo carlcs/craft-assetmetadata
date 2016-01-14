@@ -98,13 +98,13 @@ class AssetMetadataFieldType extends BaseFieldType
          */
         public function onAfterElementSave()
         {
-                $properties = $this->getSettings()->properties;
-                $defaultValues = $this->_getDefaultValues($properties);
-
                 $isNewElement = $this->_isNewElement($this->element);
 
                 if ($isNewElement || (isset($this->element->refreshMetadata) && $this->element->refreshMetadata === true))
                 {
+                        $properties = $this->getSettings()->properties;
+                        $defaultValues = $this->_getDefaultValues($properties);
+
                         $fieldHandle = $this->model->handle;
 
                         if ($this->element->getContent()->getAttribute($fieldHandle) !== $defaultValues)
