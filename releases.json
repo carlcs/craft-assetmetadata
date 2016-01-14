@@ -1,5 +1,13 @@
 [
   {
+    "version": "2.0.2",
+    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.0.2.zip",
+    "date": "2016-01-14T18:00:00-01:00",
+    "notes": [
+      "[Improved] Maximum amount of data downloaded to analyse remote files can now be configured. Partially downloaded files can be padded to match the original files size.",
+    ]
+  },
+  {
     "version": "2.0.1",
     "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.0.1.zip",
     "date": "2016-01-14T13:00:00-01:00",
