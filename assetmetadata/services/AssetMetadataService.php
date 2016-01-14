@@ -31,9 +31,13 @@ class AssetMetadataService extends BaseApplicationComponent
                 if ($sourceType->isRemote())
                 {
                         // Makes a local copy of the file if it's from a remote source.
-                        $localCopy = $sourceType->getLocalCopy($asset);
-                        $metadata = $getId3->analyze($localCopy);
-                        IOHelper::deleteFile($localCopy);
+                        $path = AssetsHelper::getTempFilePath($asset->getExtension());
+                        $bytes = craft()->config->get('truncateRemoteFileDownload', 'assetmetadata');
+
+                        $this->_downloadRemoteFile($asset->getUrl(), $path, $bytes);
+
+                        $metadata = $getId3->analyze($path);
+                        IOHelper::deleteFile($path);
                 }
                 else
                 {
@@ -52,6 +56,35 @@ class AssetMetadataService extends BaseApplicationComponent
 
         // Private Methods
         // =========================================================================
+
+        /**
+         * Partially downloads a file from a remote source
+         *
+         * @param string $url   The file's URL.
+         * @param string $path  The path to write the file to.
+         * @param int    $bytes The max. bytes to be downloaded before the file gets truncated.
+         *
+         * @return string The downloaded file's path
+         */
+        private function _downloadRemoteFile($url, $path, $bytes)
+        {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                if ($bytes != null)
+                {
+                        curl_setopt($ch, CURLOPT_RANGE, '0-'.$bytes);
+                }
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+
+                IOHelper::writeToFile($path, $response);
+
+                return true;
+        }
 
         /**
          * Returns a new, configured getID3 instance.
