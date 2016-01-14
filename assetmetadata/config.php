@@ -14,5 +14,8 @@ return array(
                 'id3v1', 'tags.id3v1', 'tags_html.id3v1',
                 'id3v2', 'tags.id3v2', 'tags_html.id3v2'
         ),
-        'truncateRemoteFileDownload' => 32768,
+        'remoteAssetSources' => array(
+                'downloadSize' => 32 * 1024,
+                'padTruncatedFiles' => true,
+        ),
 );

@@ -30,11 +30,17 @@ class AssetMetadataService extends BaseApplicationComponent
 
                 if ($sourceType->isRemote())
                 {
+                        $config = craft()->config->get('remoteAssetSources', 'assetmetadata');
+
                         // Makes a local copy of the file if it's from a remote source.
                         $path = AssetsHelper::getTempFilePath($asset->getExtension());
-                        $bytes = craft()->config->get('truncateRemoteFileDownload', 'assetmetadata');
+                        $this->_downloadRemoteFile($asset->getUrl(), $path, $config['downloadSize']);
 
-                        $this->_downloadRemoteFile($asset->getUrl(), $path, $bytes);
+                        // Pad truncated file to original size.
+                        if ($config['padTruncatedFiles'] && $config['downloadSize'] && $asset->size > $config['downloadSize'])
+                        {
+                                $this->_padFile($path, $asset->size - $config['downloadSize']);
+                        }
 
                         $metadata = $getId3->analyze($path);
                         IOHelper::deleteFile($path);
@@ -60,28 +66,51 @@ class AssetMetadataService extends BaseApplicationComponent
         /**
          * Partially downloads a file from a remote source
          *
-         * @param string $url   The file's URL.
-         * @param string $path  The path to write the file to.
-         * @param int    $bytes The max. bytes to be downloaded before the file gets truncated.
+         * @param string $url  The file's URL.
+         * @param string $path The path to write the file to.
+         * @param int    $size The max. bytes to be downloaded before the file gets truncated.
          *
-         * @return string The downloaded file's path
+         * @return bool
          */
-        private function _downloadRemoteFile($url, $path, $bytes)
+        private function _downloadRemoteFile($url, $path, $size)
         {
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-                if ($bytes != null)
+                if ($size != null)
                 {
-                        curl_setopt($ch, CURLOPT_RANGE, '0-'.$bytes);
+                        curl_setopt($ch, CURLOPT_RANGE, '0-'.$size);
                 }
 
                 $response = curl_exec($ch);
                 curl_close($ch);
 
                 IOHelper::writeToFile($path, $response);
+
+                return true;
+        }
+
+        /**
+         * Pads a file until it reaches a size
+         *
+         * @param string $path The file's path.
+         * @param int    $size The max. bytes the file is padded to.
+         *
+         * @return bool
+         */
+        private function _padFile($path, $size)
+        {
+                $fh = fopen($path, 'a');
+                $chunk = 1024;
+
+                while ($size > 0) {
+                   fputs($fh, str_pad('', min($chunk, $size)));
+                   $size -= $chunk;
+                }
+
+                fclose($fh);
 
                 return true;
         }
