@@ -2,7 +2,7 @@
 
 ![Asset Metadata](https://github.com/carlcs/craft-assetmetadata/blob/master/assetmetadata.png)
 
-Extracts and stores metadata from your assets. The plugin provides a configurable field type to extract and store metadata from an asset on element save into subfields. The subfields are user editable, so it's possible to complete missing data or correct values to your own requirements.
+The plugin provides a configurable field type to extract and store metadata from an asset on element save into subfields. The subfields are user editable, so it's possible to complete missing data or correct values to your own requirements.
 
 ## Installation
 
