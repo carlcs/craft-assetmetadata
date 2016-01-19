@@ -9,7 +9,7 @@ class m160119_000000_assetMetadata_newSettings extends BaseMigration
 
                 foreach ($fields as $field)
                 {
-                        $settings = $field['settings']
+                        $settings = $field['settings'];
                         $settings = str_replace('"properties"', '"subfields"', $settings);
                         $settings = str_replace('"customMetadataVariable"', '"useCustomMetadataVar"', $settings);
                         $settings = str_replace('"metadataVariable"', '"customMetadataVar"', $settings);
