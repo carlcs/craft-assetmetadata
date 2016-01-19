@@ -1,23 +1,26 @@
-.metadata-property-heading {
-  margin-bottom: 4px;
+.metadata-subfield-heading {
+  margin-bottom: 3px;
 }
 
-.metadata-property-heading label {
-  margin-top: 4px;
+.metadata-subfield-heading label {
   font-size: 11px;
   line-height: 1.4;
   color: #8f98a3;
 }
 
-.metadata-property + .metadata-property {
-  margin-top: 8px;
+.metadata-subfield + .metadata-subfield {
+  margin-top: 7px;
 }
 
-.meta .metadata-property + .metadata-property {
+.metadata-subfield + .btn.refresh {
+  margin-top: 14px;
+}
+
+/*.meta .metadata-subfield + .metadata-subfield {
   margin-top: 0;
 }
 
-.meta .metadata-property .text {
+.meta .metadata-subfield .text {
   display: block;
   margin: -8px 0;
   padding: 14px 0;
@@ -27,7 +30,5 @@
   box-shadow: none;
   border: none !important;
   background: transparent;
-
   margin: -16px 0 -8px 0;
-  /* min-width: 250px; */
-}
+}*/

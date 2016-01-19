@@ -3,6 +3,14 @@ namespace Craft;
 
 class AssetMetadataFieldType extends BaseFieldType
 {
+        // Properties
+        // =========================================================================
+
+        /**
+         * @var bool
+         */
+        private $_isNewElement;
+
         // Public Methods
         // =========================================================================
 
@@ -33,16 +41,8 @@ class AssetMetadataFieldType extends BaseFieldType
          */
         public function getSettingsHtml()
         {
-                $properties = $this->getSettings()->properties;
-
-                if (!$properties)
-                {
-                        $properties = array(array('name' => '', 'handle' => '', 'defaultValue' => ''));
-                }
-
                 return craft()->templates->render('assetmetadata/fieldtypes/assetmetadata/settings', array(
                         'settings' => $this->getSettings(),
-                        'properties' => $properties
                 ));
         }
 
@@ -56,14 +56,14 @@ class AssetMetadataFieldType extends BaseFieldType
          */
         public function getInputHtml($name, $values)
         {
-                $properties = $this->getSettings()->properties;
-
-                craft()->templates->includeCssResource('assetmetadata/assetmetadata.css');
-
                 return craft()->templates->render('assetmetadata/fieldtypes/assetmetadata/input', array(
-                        'name'       => $name,
-                        'properties' => $properties,
-                        'values'     => $values
+                        'id'        => craft()->templates->formatInputId($name),
+                        'name'      => $name,
+                        'values'    => $values,
+                        'settings'  => $this->getSettings(),
+
+                        'fieldId'   => $this->model->id,
+                        'elementId' => $this->element->id,
                 ));
         }
 
@@ -76,14 +76,14 @@ class AssetMetadataFieldType extends BaseFieldType
          */
         public function prepValue($values)
         {
-                if (is_array($values) && ($properties = $this->getSettings()->properties))
+                if (is_array($values) && ($subfields = $this->getSettings()->subfields))
                 {
-                        // Make properties available via their handles
+                        // Make subfields available via their handles
                         foreach ($values as $id => $value)
                         {
-                                if (isset($properties[$id]))
+                                if (isset($subfields[$id]))
                                 {
-                                        $values[$properties[$id]['handle']] = $value;
+                                        $values[$subfields[$id]['handle']] = $value;
                                 }
                         }
 
@@ -98,18 +98,17 @@ class AssetMetadataFieldType extends BaseFieldType
          */
         public function onAfterElementSave()
         {
-                $isNewElement = $this->_isNewElement($this->element);
-
-                if ($isNewElement || (isset($this->element->refreshMetadata) && $this->element->refreshMetadata === true))
+                if ($this->isNewElement() || $this->getSettings()->refreshOnElementSave)
                 {
-                        $properties = $this->getSettings()->properties;
-                        $defaultValues = $this->_getDefaultValues($properties);
+                        $defaultValues = craft()->assetMetadata_fieldType->getDefaultValues($this);
 
                         $fieldHandle = $this->model->handle;
 
                         if ($this->element->getContent()->getAttribute($fieldHandle) !== $defaultValues)
                         {
-                                $this->element->getContent()->setAttribute($fieldHandle, $defaultValues);
+                                $this->element->setContentFromPost(array(
+                                        $fieldHandle => $defaultValues
+                                ));
 
                                 $success = craft()->elements->saveElement($this->element);
 
@@ -132,75 +131,28 @@ class AssetMetadataFieldType extends BaseFieldType
         protected function defineSettings()
         {
                 return array(
-                        'properties' => array(AttributeType::Mixed, 'default' => array()),
-                        'customMetadataVariable' => array(AttributeType::Bool, 'default' => false),
-                        'metadataVariable' => array(AttributeType::String),
+                        'subfields'            => array(AttributeType::Mixed, 'default' => array(array('name' => '', 'handle' => '', 'defaultValue' => ''))),
+                        'useCustomMetadataVar' => array(AttributeType::Bool, 'default' => false),
+                        'customMetadataVar'    => array(AttributeType::String, 'default' => ''),
+                        'readonly'             => array(AttributeType::Bool, 'default' => false),
+                        'showRefreshButton'    => array(AttributeType::Bool, 'default' => false),
+                        'refreshOnElementSave' => array(AttributeType::Bool, 'default' => false),
                 );
-        }
-
-        // Private Methods
-        // =========================================================================
-
-        /**
-         * Returns the default values for metadata properties.
-         *
-         * Gets an asset's metadata object and assigns each property configured in the field settings
-         * its value by rendering the property's default value Twig.
-         *
-         * @param mixed $properties
-         *
-         * @return array
-         */
-        private function _getDefaultValues($properties)
-        {
-                $oldPath = craft()->path->getTemplatesPath();
-                craft()->path->setTemplatesPath(craft()->path->getSiteTemplatesPath());
-
-                if ($this->getSettings()->customMetadataVariable)
-                {
-                        $twig = $this->getSettings()->metadataVariable;
-                        $twig .= '{{ metadata|json_encode|raw }}';
-
-                        $metadata = craft()->templates->renderString($twig, array('object' => $this->element));
-                        $metadata = json_decode($metadata, true);
-                }
-                else
-                {
-                        $metadata = craft()->assetMetadata->getAssetMetadata($this->element);
-                }
-
-                $defaultValues = array();
-
-                foreach ($properties as $id => $property)
-                {
-                        $variables = array('object' => $this->element, 'metadata' => $metadata);
-
-                        $defaultValues[$id] = craft()->templates->renderString($property['defaultValue'], $variables);
-                }
-
-                craft()->path->setTemplatesPath($oldPath);
-
-                return $defaultValues;
         }
 
         /**
          * Returns whether this is a new element.
          *
-         * @param mixed $element
-         * @param mixed $tolerance
-         *
          * @return bool
          */
-        private function _isNewElement($element, $tolerance = 2)
+        protected function isNewElement()
         {
-                if (!$element->dateCreated)
+                if (!isset($this->_isNewElement))
                 {
-                        return true;
+                        $element = $this->element;
+                        $this->_isNewElement = (!$element || empty($element->dateCreated));
                 }
 
-                $now = new DateTime();
-                $diff = $now->getTimestamp() - $element->dateCreated->getTimestamp();
-
-                return $diff <= $tolerance;
+                return $this->_isNewElement;
         }
 }

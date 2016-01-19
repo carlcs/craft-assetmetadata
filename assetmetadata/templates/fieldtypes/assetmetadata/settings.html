@@ -2,28 +2,28 @@
 
 {{ forms.checkboxField({
     label: 'Set the “metadata” variable manually'|t,
-    name: 'customMetadataVariable',
-    checked: settings.customMetadataVariable,
-    toggle: 'metadataVariableContainer'
+    name: 'useCustomMetadataVar',
+    checked: settings.useCustomMetadataVar,
+    toggle: 'customMetadataVarContainer'
 }) }}
 
-<div id="metadataVariableContainer" class="nested-fields{% if not settings.customMetadataVariable %} hidden{% endif %}">
+<div id="customMetadataVarContainer" class="nested-fields{% if not settings.useCustomMetadataVar %} hidden{% endif %}">
     {{ forms.textField({
         label: 'Metadata Variable'|t,
-        instructions: 'Set the “metadata” variable manually. You can access the element this field is added to via an “object” variable.'|t,
-        id: 'metadataVariable',
-        name: 'metadataVariable',
+        instructions: 'Define the “metadata” variable. You can include tags that output element properties, the element this field is added to is available via an “object” variable.'|t,
+        id: 'customMetadataVar',
+        name: 'customMetadataVar',
         class: 'code',
-        value: settings.metadataVariable,
+        value: settings.customMetadataVar,
     }) }}
 </div>
 
 {{ forms.editableTableField({
-    label: 'Metadata Properties'|t,
-    instructions: 'Define the metadata properties and set their default values. You can access the asset’s metadata via a “metadata” variable.'|t,
-    id: 'properties',
-    name: 'properties',
-    addRowLabel: 'Add a property'|t,
+    label: 'Subfields'|t,
+    instructions: 'Define the subfields and set how the auto-generated default values should look like. You can include tags that output element properties, the asset’s metadata is available via a “metadata” variable.'|t,
+    id: 'subfields',
+    name: 'subfields',
+    addRowLabel: 'Add a subfield'|t,
     cols: {
         name: {
             heading: 'Name'|t,
@@ -36,11 +36,31 @@
             class: 'code'
         },
         defaultValue: {
-            heading: 'Default Value'|t,
+            heading: 'Auto-generated Value'|t,
             type: 'singleline',
             class: 'code',
             width: '60%'
         }
     },
-    rows: properties
+    rows: settings.subfields
+}) }}
+
+{{ forms.checkboxField({
+    label: 'Show refresh button'|t,
+    name: 'showRefreshButton',
+    checked: settings.showRefreshButton,
+}) }}
+
+{{ forms.checkboxField({
+    label: 'Make field read-only'|t,
+    name: 'readonly',
+    checked: settings.readonly,
+}) }}
+
+<div></div>
+
+{{ forms.checkboxField({
+    label: 'Auto-refresh field on every element save'|t,
+    name: 'refreshOnElementSave',
+    checked: settings.refreshOnElementSave,
 }) }}

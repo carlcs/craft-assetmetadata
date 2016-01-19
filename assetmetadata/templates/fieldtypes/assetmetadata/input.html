@@ -1,24 +1,44 @@
 {% import '_includes/forms' as forms %}
 
-<input type="hidden" name="{{ name }}" value="">
+<div class="assetmetadata">
 
-{% for id, property in properties %}
+    <div class="assetmetadata-input">
+        <input type="hidden" name="{{ name }}" value="">
 
-    {% set value = (values[id] is defined ? values[id] : '') %}
+        {% for id, subfield in settings.subfields %}
+            {% set value = (values[id] is defined ? values[id] : '') %}
 
-    <div class="metadata-property">
-        <div class="metadata-property-heading">
-            <label>{{ property.name|t }}</label>
-        </div>
+            <div class="metadata-subfield">
+                <div class="metadata-subfield-heading">
+                    <label>{{ subfield.name|t }}</label>
+                </div>
 
-        {% set config = {
-            id: null,
-            name: name~'['~id~']',
-            value: value,
-            class: 'nicetext',
-        } %}
+                {% set config = {
+                    id: null,
+                    name: name~'['~id~']',
+                    value: value,
+                    class: 'nicetext',
+                    readonly: settings.readonly
+                } %}
 
-        {{ forms.text(config) }}
+                {{ forms.text(config) }}
+            </div>
+        {% endfor %}
+
+        {% if settings.showRefreshButton %}
+            <div class="refresh btn">{{ 'Refresh'|t }}</div>
+            <div class="spinner hidden"></div>
+        {% endif %}
     </div>
+</div>
 
-{% endfor %}
+{% if settings.showRefreshButton %}
+    {% includejs %}
+        new Craft.AssetMetadataInput(
+            "{{ id|namespaceInputId|e('js') }}",
+            "{{ name|namespaceInputName|e('js') }}",
+            "{{ fieldId|e('js') }}",
+            "{{ elementId|e('js') }}"
+        );
+    {% endincludejs %}
+{% endif %}

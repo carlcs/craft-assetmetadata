@@ -41,6 +41,12 @@ class AssetMetadataPlugin extends BasePlugin
         public function init()
         {
                 require __DIR__.'/vendor/autoload.php';
+
+                if (craft()->request->isCpRequest())
+                {
+                        craft()->templates->includeJsResource('assetmetadata/fieldtypes/assetmetadata/input.js');
+                        craft()->templates->includeCssResource('assetmetadata/fieldtypes/assetmetadata/input.css');
+                }
         }
 
         public function addTwigExtension()
@@ -67,12 +73,12 @@ class AssetMetadataPlugin extends BasePlugin
                         {
                                 $fieldSettings = $fieldType->getSettings();
 
-                                foreach ($fieldSettings->properties as $property)
+                                foreach ($fieldSettings->subfields as $subfield)
                                 {
-                                        $key = 'field:'.$field->id.':'.$property['handle'];
+                                        $key = 'field:'.$field->id.':'.$subfield['handle'];
 
                                         $attributes[$key] = array(
-                                                'label' => Craft::t($property['name'])
+                                                'label' => Craft::t($subfield['name'])
                                         );
                                 }
                         }
@@ -98,7 +104,12 @@ class AssetMetadataPlugin extends BasePlugin
                         $field = craft()->fields->getFieldById($parts[1]);
                         $fieldHandle = $field->getAttribute('handle');
 
-                        return $element[$fieldHandle][$parts[2]];
+                        if (is_array($element->$fieldHandle))
+                        {
+                                return $element[$fieldHandle][$parts[2]];
+                        }
+
+                        return '';
                 }
         }
 }
