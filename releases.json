@@ -1,5 +1,15 @@
 [
   {
+    "version": "2.1",
+    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.zip",
+    "date": "2016-01-19T23:00:00-01:00",
+    "notes": [
+      "[Added] Added a refresh button to the field type.",
+      "[Added] Added a setting to auto-refresh the field on every element save.",
+      "[Added] Added a setting to make field read-only.",
+    ]
+  },
+  {
     "version": "2.0.2",
     "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.0.2.zip",
     "date": "2016-01-14T18:00:00-01:00",
