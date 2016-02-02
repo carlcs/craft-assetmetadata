@@ -44,7 +44,7 @@ Default Value is a full Twig template that will be parsed when you save the elem
 [More example code to access common metadata properties.][3]
 
 
-  [3]: examples/common-properties.md
+  [3]: _examples/common-properties.md
 
 #### Metadata Variable
 
