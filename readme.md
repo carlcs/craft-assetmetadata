@@ -1,6 +1,6 @@
-# Asset Metadata plugin for Craft
+# Asset Metadata plugin for Craft CMS
 
-![Asset Metadata](https://github.com/carlcs/craft-assetmetadata/blob/master/assetmetadata.png)
+![Asset Metadata](https://github.com/carlcs/craft-assetmetadata/blob/master/resources/screenshot.png)
 
 The plugin provides a configurable field type to extract and store metadata from an asset on element save into subfields. The subfields are user editable, so it's possible to complete missing data or correct values to your own requirements.
 

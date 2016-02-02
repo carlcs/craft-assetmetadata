@@ -1,8 +1,10 @@
 {
-  "config": {
-    "vendor-dir": "assetmetadata/vendor"
-  },
+  "name": "carlcs/craft-assetmetadata",
+  "description": "Asset Metadata plugin for Craft CMS",
+  "type": "craft-plugin",
   "require": {
+    "composer/installers": "~1.0",
+    "php": ">=5.3.0",
     "james-heinrich/getid3": "^1.9"
   }
 }

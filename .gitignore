@@ -1,4 +1,4 @@
 *.DS_Store
 *Thumbs.db
-composer.lock
 _notes
+composer.lock
