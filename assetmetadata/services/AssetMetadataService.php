@@ -12,7 +12,7 @@ class AssetMetadataService extends BaseApplicationComponent
         /**
          * Returns metadata for an asset.
          *
-         * @param AssetFileModel $asset    The asset model to parse
+         * @param AssetFileModel $asset    The asset file model to parse
          * @param string         $property String in dot notation that sets the root metadata property
          *
          * @return array|string The asset's metadata
@@ -23,7 +23,7 @@ class AssetMetadataService extends BaseApplicationComponent
 
                 if (!($asset instanceof AssetFileModel))
                 {
-                        throw new Exception('(Asset Metadata) The plugin only works with asset models.');
+                        throw new Exception('(Asset Metadata) The plugin only works with asset file models.');
                 }
 
                 $sourceType = craft()->assetSources->getSourceTypeById($asset->sourceId);

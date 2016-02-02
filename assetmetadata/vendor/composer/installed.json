@@ -1,23 +1,23 @@
 [
     {
         "name": "james-heinrich/getid3",
-        "version": "v1.9.10",
-        "version_normalized": "1.9.10.0",
+        "version": "v1.9.11",
+        "version_normalized": "1.9.11.0",
         "source": {
             "type": "git",
             "url": "https://github.com/JamesHeinrich/getID3.git",
-            "reference": "835a0db62993cb1d85925f9a8aefe13e4ebe2b67"
+            "reference": "da7c657f2bcc865ef1bef53cf90c2638f344469b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/835a0db62993cb1d85925f9a8aefe13e4ebe2b67",
-            "reference": "835a0db62993cb1d85925f9a8aefe13e4ebe2b67",
+            "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/da7c657f2bcc865ef1bef53cf90c2638f344469b",
+            "reference": "da7c657f2bcc865ef1bef53cf90c2638f344469b",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-09-14 05:42:21",
+        "time": "2015-12-24 10:50:02",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
