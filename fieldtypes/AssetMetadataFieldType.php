@@ -95,21 +95,22 @@ class AssetMetadataFieldType extends BaseFieldType
      */
     public function onAfterElementSave()
     {
-        if ($this->isNewElement() || $this->getSettings()->refreshOnElementSave) {
+        $flashKey = 'assetMetadataBeingSaved:'.$this->element->id.':'.$this->model->id;
+        $isFirstSave = !craft()->userSession->hasFlash($flashKey);
+
+        if ($isFirstSave && ($this->isNewElement() || $this->getSettings()->refreshOnElementSave)) {
+            craft()->userSession->setFlash($flashKey, 'saved');
+
             $defaultValues = craft()->assetMetadata_fieldType->getDefaultValues($this);
 
-            $fieldHandle = $this->model->handle;
+            $this->element->setContentFromPost(array(
+                $this->model->handle => $defaultValues
+            ));
 
-            if ($this->element->getContent()->getAttribute($fieldHandle) !== $defaultValues) {
-                $this->element->setContentFromPost(array(
-                    $fieldHandle => $defaultValues
-                ));
+            $success = craft()->elements->saveElement($this->element);
 
-                $success = craft()->elements->saveElement($this->element);
-
-                if (!$success) {
-                    Craft::log('(Asset Metadata) Couldn’t save the element “'.$this->element->title.'”', LogLevel::Error);
-                }
+            if (!$success) {
+                Craft::log('(Asset Metadata) Couldn’t save the element “'.$this->element->title.'”', LogLevel::Error);
             }
         }
     }
