@@ -6,7 +6,14 @@ The plugin provides a configurable field type to extract and store metadata from
 
 ## Installation
 
-To install the plugin, copy the assetmetadata/ folder into craft/plugins/. Then go to Settings → Plugins and click the "Install" button next to "Asset Metadata".
+The plugin is available on Packagist and can be installed using Composer. You can also download the [latest release][0] and copy the files into craft/plugins/assetmetadata/.
+
+```
+$ composer require carlcs/craft-assetmetadata
+```
+
+
+  [0]: https://github.com/carlcs/craft-assetmetadata/releases/latest
 
 ## Data Structure
 
@@ -102,7 +109,3 @@ Converts an EXIF GPS point location into sexagesimal format (ISO 6709).
 ### formatExifDate
 
 Converts an EXIF date value into a DateTime object.
-
-## Planned features
-
-- Support for remote asset sources.
