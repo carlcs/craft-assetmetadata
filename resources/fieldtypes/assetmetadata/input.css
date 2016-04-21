@@ -16,6 +16,10 @@
   margin-top: 14px;
 }
 
+input[readonly] {
+  color: #5D7692;
+}
+
 /*.meta .metadata-subfield + .metadata-subfield {
   margin-top: 0;
 }
