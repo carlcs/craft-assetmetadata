@@ -10,7 +10,7 @@ class AssetMetadataPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '2.1.1';
+        return '2.1.2';
     }
 
     public function getSchemaVersion()
@@ -25,7 +25,7 @@ class AssetMetadataPlugin extends BasePlugin
 
     public function getDeveloperUrl()
     {
-        return 'https://github.com/carlcs/craft-assetmetadata';
+        return 'https://github.com/carlcs';
     }
 
     public function getDocumentationUrl()

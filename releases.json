@@ -1,4 +1,13 @@
 [
+  Fields which are set to "read-only" are now grayed out a bit.
+  {
+    "version": "2.1.2",
+    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.2.zip",
+    "date": "2016-04-21T11:00:00+01:00",
+    "notes": [
+      "[Improved] Fields set to “read-only” are now grayed out a bit."
+    ]
+  },
   {
     "version": "2.1.1",
     "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.1.zip",
