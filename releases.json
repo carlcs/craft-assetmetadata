@@ -1,5 +1,4 @@
 [
-  Fields which are set to "read-only" are now grayed out a bit.
   {
     "version": "2.1.2",
     "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.2.zip",
