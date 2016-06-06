@@ -46,6 +46,8 @@ class AssetMetadataPlugin extends BasePlugin
             craft()->templates->includeJsResource('assetmetadata/fieldtypes/assetmetadata/input.js');
             craft()->templates->includeCssResource('assetmetadata/fieldtypes/assetmetadata/input.css');
         }
+
+        $this->attachEvents();
     }
 
     public function addTwigExtension()
@@ -105,5 +107,44 @@ class AssetMetadataPlugin extends BasePlugin
 
             return '';
         }
+    }
+
+    /**
+     * Attach the events
+     *
+     * @return void
+     */
+    protected function attachEvents()
+    {
+        // this is needed to update the search index with the metadata while creating a new element
+        craft()->on('elements.onBeforeSaveElement', function(Event $event) {
+            $element = $event->params['element'];
+
+            $fieldLayout = $element->getFieldLayout();
+
+            foreach ($fieldLayout->getFields() as $fieldLayoutField)
+            {
+                $field = $fieldLayoutField->getField();
+
+                if ($field)
+                {
+                    $fieldType = $field->getFieldType();
+
+                    if($fieldType) {
+
+                        $fieldType->element = $element;
+
+                        if (get_class($fieldType) === AssetMetadataFieldType::class)
+                        {
+                            $defaultValues = craft()->assetMetadata_fieldType->getDefaultValues($fieldType);
+
+                            $element->setContentFromPost(array(
+                                $field->handle => $defaultValues
+                            ));
+                        }
+                    }
+                }
+            }
+        });
     }
 }
