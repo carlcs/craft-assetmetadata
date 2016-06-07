@@ -5,6 +5,7 @@
   "require": {
     "composer/installers": "~1.0",
     "php": ">=5.3.0",
-    "james-heinrich/getid3": "^1.9"
-  }
+    "james-heinrich/getid3": "dev-master"
+  },
+  "minimum-stability": "dev"
 }

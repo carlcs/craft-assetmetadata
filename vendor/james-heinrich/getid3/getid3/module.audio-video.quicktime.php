@@ -173,10 +173,14 @@ class getid3_quicktime extends getid3_handler
 				}
 			}
 		}
-		if (($info['audio']['dataformat'] == 'mp4') && empty($info['video']['resolution_x'])) {
+		if ($info['audio']['dataformat'] == 'mp4') {
 			$info['fileformat'] = 'mp4';
-			$info['mime_type']  = 'audio/mp4';
-			unset($info['video']['dataformat']);
+			if (empty($info['video']['resolution_x'])) {
+				$info['mime_type']  = 'audio/mp4';
+				unset($info['video']['dataformat']);
+			} else {
+				$info['mime_type']  = 'video/mp4';
+			}
 		}
 
 		if (!$this->ReturnAtomData) {
@@ -499,6 +503,18 @@ class getid3_quicktime extends getid3_handler
 													$atom_structure['data'] = getid3_lib::BigEndian2Int(substr($boxdata, 8, 8));
 													break;
 
+												case 'covr':
+													$atom_structure['data'] = substr($boxdata, 8);
+													// not a foolproof check, but better than nothing
+													if (preg_match('#^\\xFF\\xD8\\xFF#', $atom_structure['data'])) {
+														$atom_structure['image_mime'] = 'image/jpeg';
+													} elseif (preg_match('#^\\x89\\x50\\x4E\\x47\\x0D\\x0A\\x1A\\x0A#', $atom_structure['data'])) {
+														$atom_structure['image_mime'] = 'image/png';
+													} elseif (preg_match('#^GIF#', $atom_structure['data'])) {
+														$atom_structure['image_mime'] = 'image/gif';
+													}
+													break;
+
 												case 'atID':
 												case 'cnID':
 												case 'geID':
@@ -516,9 +532,9 @@ class getid3_quicktime extends getid3_handler
 											$atom_structure['data'] = substr($boxdata, 8);
 											if ($atomname == 'covr') {
 												// not a foolproof check, but better than nothing
-												if (preg_match('#^\xFF\xD8\xFF#', $atom_structure['data'])) {
+												if (preg_match('#^\\xFF\\xD8\\xFF#', $atom_structure['data'])) {
 													$atom_structure['image_mime'] = 'image/jpeg';
-												} elseif (preg_match('#^\x89\x50\x4E\x47\x0D\x0A\x1A\x0A#', $atom_structure['data'])) {
+												} elseif (preg_match('#^\\x89\\x50\\x4E\\x47\\x0D\\x0A\\x1A\\x0A#', $atom_structure['data'])) {
 													$atom_structure['image_mime'] = 'image/png';
 												} elseif (preg_match('#^GIF#', $atom_structure['data'])) {
 													$atom_structure['image_mime'] = 'image/gif';
@@ -1579,6 +1595,10 @@ if (!empty($atom_structure['sample_description_table'][$i]['width']) && !empty($
 				// Furthermore, for historical reasons the list of atoms is optionally
 				// terminated by a 32-bit integer set to 0. If you are writing a program
 				// to read user data atoms, you should allow for the terminating 0.
+				if (strlen($atom_data) > 12) {
+					$subatomoffset += 4;
+					continue;
+				}
 				return $atom_structure;
 			}
 

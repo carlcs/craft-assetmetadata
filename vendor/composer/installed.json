@@ -1,25 +1,128 @@
 [
     {
-        "name": "james-heinrich/getid3",
-        "version": "v1.9.11",
-        "version_normalized": "1.9.11.0",
+        "name": "composer/installers",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
-            "url": "https://github.com/JamesHeinrich/getID3.git",
-            "reference": "da7c657f2bcc865ef1bef53cf90c2638f344469b"
+            "url": "https://github.com/composer/installers.git",
+            "reference": "2db1f3ce7bcf0d294811f5f0214e24d2878a57da"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/da7c657f2bcc865ef1bef53cf90c2638f344469b",
-            "reference": "da7c657f2bcc865ef1bef53cf90c2638f344469b",
+            "url": "https://api.github.com/repos/composer/installers/zipball/2db1f3ce7bcf0d294811f5f0214e24d2878a57da",
+            "reference": "2db1f3ce7bcf0d294811f5f0214e24d2878a57da",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0"
+        },
+        "replace": {
+            "roundcube/plugin-installer": "*",
+            "shama/baton": "*"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev",
+            "phpunit/phpunit": "4.1.*"
+        },
+        "time": "2016-05-19 16:58:29",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "Composer\\Installers\\Plugin",
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Composer\\Installers\\": "src/Composer/Installers"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kyle Robinson Young",
+                "email": "kyle@dontkry.com",
+                "homepage": "https://github.com/shama"
+            }
+        ],
+        "description": "A multi-framework Composer library installer",
+        "homepage": "https://composer.github.io/installers/",
+        "keywords": [
+            "Craft",
+            "Dolibarr",
+            "Hurad",
+            "ImageCMS",
+            "MODX Evo",
+            "Mautic",
+            "OXID",
+            "RadPHP",
+            "SMF",
+            "Thelia",
+            "WolfCMS",
+            "agl",
+            "aimeos",
+            "annotatecms",
+            "bitrix",
+            "cakephp",
+            "chef",
+            "codeigniter",
+            "concrete5",
+            "croogo",
+            "dokuwiki",
+            "drupal",
+            "elgg",
+            "fuelphp",
+            "grav",
+            "installer",
+            "joomla",
+            "kohana",
+            "laravel",
+            "lithium",
+            "magento",
+            "mako",
+            "mediawiki",
+            "modulework",
+            "moodle",
+            "phpbb",
+            "piwik",
+            "ppi",
+            "puppet",
+            "roundcube",
+            "shopware",
+            "silverstripe",
+            "symfony",
+            "typo3",
+            "wordpress",
+            "zend",
+            "zikula"
+        ]
+    },
+    {
+        "name": "james-heinrich/getid3",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/JamesHeinrich/getID3.git",
+            "reference": "52483a21b0f4e4fb3ad84eb0a17512be97335f9c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/52483a21b0f4e4fb3ad84eb0a17512be97335f9c",
+            "reference": "52483a21b0f4e4fb3ad84eb0a17512be97335f9c",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-12-24 10:50:02",
+        "time": "2016-06-07 21:47:32",
         "type": "library",
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "classmap": [
                 "getid3/getid3.php"
