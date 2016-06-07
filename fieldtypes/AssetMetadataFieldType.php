@@ -3,14 +3,6 @@ namespace Craft;
 
 class AssetMetadataFieldType extends BaseFieldType
 {
-    // Properties
-    // =========================================================================
-
-    /**
-     * @var bool
-     */
-    private $_isNewElement;
-
     // Public Methods
     // =========================================================================
 
@@ -88,33 +80,6 @@ class AssetMetadataFieldType extends BaseFieldType
         }
     }
 
-    /**
-     * Performs any additional actions after the element has been saved.
-     *
-     * @return null
-     */
-    public function onAfterElementSave()
-    {
-        $flashKey = 'assetMetadataBeingSaved:'.$this->element->id.':'.$this->model->id;
-        $isFirstSave = !craft()->userSession->hasFlash($flashKey);
-
-        if ($isFirstSave && ($this->isNewElement() || $this->getSettings()->refreshOnElementSave)) {
-            craft()->userSession->setFlash($flashKey, 'saved');
-
-            $defaultValues = craft()->assetMetadata_fieldType->getDefaultValues($this);
-
-            $this->element->setContentFromPost(array(
-                $this->model->handle => $defaultValues
-            ));
-
-            $success = craft()->elements->saveElement($this->element);
-
-            if (!$success) {
-                Craft::log('(Asset Metadata) Couldn’t save the element “'.$this->element->title.'”', LogLevel::Error);
-            }
-        }
-    }
-
     // Protected Methods
     // =========================================================================
 
@@ -133,20 +98,5 @@ class AssetMetadataFieldType extends BaseFieldType
             'showRefreshButton'    => array(AttributeType::Bool, 'default' => false),
             'refreshOnElementSave' => array(AttributeType::Bool, 'default' => false),
         );
-    }
-
-    /**
-     * Returns whether this is a new element.
-     *
-     * @return bool
-     */
-    protected function isNewElement()
-    {
-        if (!isset($this->_isNewElement)) {
-            $element = $this->element;
-            $this->_isNewElement = (!$element || empty($element->dateCreated));
-        }
-
-        return $this->_isNewElement;
     }
 }

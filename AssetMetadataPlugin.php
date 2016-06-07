@@ -47,7 +47,7 @@ class AssetMetadataPlugin extends BasePlugin
             craft()->templates->includeCssResource('assetmetadata/fieldtypes/assetmetadata/input.css');
         }
 
-        $this->attachEvents();
+        $this->_initEventListeners();
     }
 
     public function addTwigExtension()
@@ -109,38 +109,37 @@ class AssetMetadataPlugin extends BasePlugin
         }
     }
 
+    // Private Methods
+    // =========================================================================
+
     /**
-     * Attach the events
-     *
-     * @return void
+     * Initializes event listeners
      */
-    protected function attachEvents()
+    private function _initEventListeners()
     {
-        // this is needed to update the search index with the metadata while creating a new element
         craft()->on('elements.onBeforeSaveElement', function(Event $event) {
             $element = $event->params['element'];
+            $isNewElement = $event->params['isNewElement'];
 
             $fieldLayout = $element->getFieldLayout();
 
-            foreach ($fieldLayout->getFields() as $fieldLayoutField)
-            {
-                $field = $fieldLayoutField->getField();
+            if ($fieldLayout) {
+                foreach ($fieldLayout->getFields() as $fieldLayoutField) {
+                    $field = $fieldLayoutField->getField();
 
-                if ($field)
-                {
-                    $fieldType = $field->getFieldType();
+                    if ($field) {
+                        $fieldType = $field->getFieldType();
 
-                    if($fieldType) {
+                        if ($fieldType && $fieldType->getClassHandle() === 'AssetMetadata') {
+                            if ($isNewElement || $fieldType->getSettings()->refreshOnElementSave) {
+                                $fieldType->element = $element;
 
-                        $fieldType->element = $element;
+                                $defaultValues = craft()->assetMetadata_fieldType->getDefaultValues($fieldType);
 
-                        if (get_class($fieldType) === AssetMetadataFieldType::class)
-                        {
-                            $defaultValues = craft()->assetMetadata_fieldType->getDefaultValues($fieldType);
-
-                            $element->setContentFromPost(array(
-                                $field->handle => $defaultValues
-                            ));
+                                $element->setContentFromPost(array(
+                                    $field->handle => $defaultValues
+                                ));
+                            }
                         }
                     }
                 }
