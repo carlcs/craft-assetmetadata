@@ -46,6 +46,15 @@ class AssetMetadataService extends BaseApplicationComponent
             $metadata = $getId3->analyze($path);
         }
 
+        // Log errors
+        if (isset($metadata['error'])) {
+            AssetMetadataPlugin::log('There was a problem parsing the metadata: '.print_r($metadata['error'], true), LogLevel::Error);
+        }
+
+        if (isset($metadata['warning'])) {
+            AssetMetadataPlugin::log('There was a problem parsing the metadata: '.print_r($metadata['warning'], true), LogLevel::Warning);
+        }
+
         // Merges ID3 tags and stores them in a "comments" property.
         getid3_lib::CopyTagsToComments($metadata);
 
