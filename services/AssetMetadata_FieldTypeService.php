@@ -37,9 +37,12 @@ class AssetMetadata_FieldTypeService extends BaseApplicationComponent
         $defaultValues = array();
 
         foreach ($settings->subfields as $id => $subfield) {
-            $variables = array('object' => $element, 'metadata' => $metadata);
-
-            $defaultValues[$id] = craft()->templates->renderString($subfield['defaultValue'], $variables);
+            try {
+                $variables = array('object' => $element, 'metadata' => $metadata);
+                $defaultValues[$id] = craft()->templates->renderString($subfield['defaultValue'], $variables);
+            } catch (\Exception $e) {
+                AssetMetadataPlugin::log('Could not render value for subfield “'.$subfield['handle'].'” ('.$e->getMessage().').', LogLevel::Error);
+            }
         }
 
         craft()->path->setTemplatesPath($oldPath);
