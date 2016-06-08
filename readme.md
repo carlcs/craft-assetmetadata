@@ -71,11 +71,18 @@ You can access metadata properties from a Asset Metadata field using the "sub-fi
 {{ asset.metadata.playtime }}
 ```
 
-## Twig function
+## Twig filters and functions
 
-### getAssetMetadata( asset, property )
+In addition to the filters and functions listed below, the plugin also includes `unitPrefix`, `fractionToFloat` and `floatToFraction` from the [Helpers][4] plugin.
+
+  [4]: https://github.com/carlcs/craft-helpers
+
+#### getAssetMetadata( asset, property )
 
 Returns metadata for an asset. Please consider caching the function together with its output to save resources. Or use the Asset Metadata field type instead.
+
+- **`asset`** (required) – The asset model to parse.
+- **`property`** (default `null`) – String in dot notation that sets the root metadata property.
 
 ```twig
 {% set metadata = getAssetMetadata(asset, 'jpg.exif') %}
@@ -84,28 +91,13 @@ Returns metadata for an asset. Please consider caching the function together wit
 <span>{{ 'f/' ~ metadata.EXIF.FNumber }}</span>
 ```
 
-#### Parameters
-
-`asset`
-:   The asset model to parse.
-
-`property` (optional)
-:   String in dot notation that sets the root metadata property (Default value is `null`).
-
-## Twig filters
-
-### formatExifGpsCoordinates( gpsSecDecimals, gpsSecDecPoint )
+#### formatExifGpsCoordinates( gpsSecDecimals, gpsSecDecPoint )
 
 Converts an EXIF GPS point location into sexagesimal format (ISO 6709).
 
-#### Parameters
+- **`gpsSecDecimals`** (default `0`) – Number of digits after the decimal point for the seconds value.
+- **`gpsSecDecPoint`** (default `.`) – The character used as the decimal point.
 
-`gpsSecDecimals` (optional)
-:   Number of digits after the decimal point for the seconds value (Default value is `0`).
-
-`gpsSecDecPoint` (optional)
-:   The character used as the decimal point (Default value is `.`).
-
-### formatExifDate
+#### formatExifDate
 
 Converts an EXIF date value into a DateTime object.
