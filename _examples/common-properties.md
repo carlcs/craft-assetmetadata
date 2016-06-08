@@ -2,11 +2,7 @@
 
 Example code to access common metadata properties from an Asset Metadata field's "metadata" variable, or the `getAssetMetadata` function's return data. The complete data structure is [documented in the getID3 repository][1].
 
-`floatToFraction` and `unitPrefix` Twig filters are available in the [Number Convert][2] plugin.
-
-
   [1]: https://github.com/JamesHeinrich/getID3/blob/master/structure.txt
-  [2]: https://github.com/carlcs/craft-numberconvert
 
 ## Audio Metadata
 

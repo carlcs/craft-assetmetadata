@@ -21,7 +21,7 @@ class AssetMetadataTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('getAssetMetadata', array($this, 'getAssetMetadataFunction')),
+            new \Twig_SimpleFunction('getAssetMetadata', array(craft()->assetMetadata, 'getAssetMetadata')),
         );
     }
 
@@ -33,45 +33,13 @@ class AssetMetadataTwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('formatExifDate', array($this, 'formatExifDateFilter')),
-            new \Twig_SimpleFilter('formatExifGpsCoordinates', array($this, 'formatExifGpsCoordinatesFilter'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('formatExifDate', array(craft()->assetMetadata_helpers, 'formatExifDate')),
+            new \Twig_SimpleFilter('formatExifGpsCoordinates', array(craft()->assetMetadata_helpers, 'formatExifGpsCoordinates'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('formatExifGpsCoordinate', array(craft()->assetMetadata_helpers, 'formatExifGpsCoordinate'), array('is_safe' => array('html'))),
+
+            new \Twig_SimpleFilter('unitPrefix', array(craft()->assetMetadata_helpers, 'unitPrefix')),
+            new \Twig_SimpleFilter('fractionToFloat', array(craft()->assetMetadata_helpers, 'fractionToFloat')),
+            new \Twig_SimpleFilter('floatToFraction', array(craft()->assetMetadata_helpers, 'floatToFraction')),
         );
-    }
-
-    /**
-     * Returns metadata for an asset.
-     *
-     * @param AssetFileModel $asset    The asset model to parse
-     * @param string         $property String in dot notation that sets the root metadata property
-     *
-     * @return array|string The asset's metadata
-     */
-    public function getAssetMetadataFunction($asset, $property = null)
-    {
-        return craft()->assetMetadata->getAssetMetadata($asset, $property);
-    }
-
-    /**
-     * Converts an EXIF date/time value into a DateTime object.
-     *
-     * @param array $date
-     *
-     * @return DateTime/null
-     */
-    public function formatExifDateFilter($date)
-    {
-        return craft()->assetMetadata_helpers->formatExifDate($date);
-    }
-
-    /**
-     * Converts an EXIF GPS point location into sexagesimal format (ISO 6709).
-     *
-     * @param array $gpsData
-     *
-     * @return string|null
-     */
-    public function formatExifGpsCoordinatesFilter($gpsData, $gpsSecDecimals = 0, $gpsSecDecPoint = '.')
-    {
-        return craft()->assetMetadata_helpers->formatExifGpsCoordinates($gpsData, $gpsSecDecimals, $gpsSecDecPoint);
     }
 }

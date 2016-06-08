@@ -19,6 +19,28 @@ return array(
     'W' => 'W',
     'E' => 'O',
 
+    'trillion' => 'Billionen',
+    'billion' => 'Milliarden',
+    'million' => 'Millionen',
+    'thousand' => 'Tausend',
+    'hundred' => 'Hundert',
+
+    'peta' => 'Peta',
+    'tera' => 'Tera',
+    'giga' => 'Giga',
+    'mega' => 'Mega',
+    'kilo' => 'Kilo',
+    'centi' => 'Centi',
+    'milli' => 'Milli',
+    'micro' => 'Micro',
+    'nano' => 'Nano',
+
+    'pebi' => 'Pebi',
+    'tebi' => 'Tebi',
+    'gibi' => 'Gibi',
+    'mebi' => 'Mebi',
+    'kibi' => 'Kibi',
+
     // 'Metadata Variable' => '',
     // 'Set the “metadata” variable manually' => '',
     // 'Define the “metadata” variable. You can include tags that output element properties, the element this field is added to is available via an “object” variable.' => '',
