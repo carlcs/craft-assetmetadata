@@ -1,14 +1,23 @@
 [
-  // {
-  //   "version": "2.1.3",
-  //   "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.3.zip",
-  //   "date": "2016-06-08T00:00:00+01:00",
-  //   "notes": [
-  //     "[Improved] Added logging of getID3 warnings and errors.",
-  //     "[Improved] Updated getID3 to the latest commit (52483a2).",
-  //     "[Fixed] The search index is now updated correctly with the content of the asset metadata.",
-  //   ]
-  // },
+  {
+    "version": "2.1.4",
+    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.4.zip",
+    "date": "2016-06-08T02:00:00+01:00",
+    "notes": [
+      "[Added] The plugin now includes the following Twig filters from the [Helpers](https://github.com/carlcs/craft-helpers) plugin: `unitPrefix`, `fractionToFloat` and `floatToFraction`.",
+      "[Improved] Twig errors that might occur when rendering values for subfields are now logged in the assetmetadata.log file."
+    ]
+  },
+  {
+    "version": "2.1.3",
+    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.3.zip",
+    "date": "2016-06-08T00:00:00+01:00",
+    "notes": [
+      "[Improved] Warnings and errors from getID3 are now logged in the assetmetadata.log file.",
+      "[Improved] Updated getID3 to the latest commit (52483a2).",
+      "[Fixed] The search index is now updated correctly with the content of the asset metadata.",
+    ]
+  },
   {
     "version": "2.1.2",
     "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.2.zip",
