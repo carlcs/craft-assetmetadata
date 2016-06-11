@@ -21,8 +21,8 @@ class AssetMetadata_FieldTypeService extends BaseApplicationComponent
         $settings = $field->getSettings();
         $element = $field->element;
 
-        $oldPath = craft()->path->getTemplatesPath();
-        craft()->path->setTemplatesPath(craft()->path->getSiteTemplatesPath());
+        $oldTemplateMode = craft()->templates->getTemplateMode();
+        craft()->templates->setTemplateMode(TemplateMode::Site);
 
         if ($settings->useCustomMetadataVar) {
             $twig = $settings->customMetadataVar;
@@ -45,7 +45,7 @@ class AssetMetadata_FieldTypeService extends BaseApplicationComponent
             }
         }
 
-        craft()->path->setTemplatesPath($oldPath);
+        craft()->templates->setTemplateMode($oldTemplateMode);
 
         return $defaultValues;
     }
