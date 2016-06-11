@@ -28,17 +28,17 @@ class AssetMetadata_FieldTypeService extends BaseApplicationComponent
             $twig = $settings->customMetadataVar;
             $twig .= '{{ metadata|json_encode|raw }}';
 
-            $metadata = craft()->templates->renderString($twig, array('object' => $element));
+            $metadata = craft()->templates->renderString($twig, ['object' => $element]);
             $metadata = json_decode($metadata, true);
         } else {
             $metadata = craft()->assetMetadata->getAssetMetadata($element);
         }
 
-        $defaultValues = array();
+        $defaultValues = [];
 
         foreach ($settings->subfields as $id => $subfield) {
             try {
-                $variables = array('object' => $element, 'metadata' => $metadata);
+                $variables = ['object' => $element, 'metadata' => $metadata];
                 $defaultValues[$id] = craft()->templates->renderString($subfield['defaultValue'], $variables);
             } catch (\Exception $e) {
                 AssetMetadataPlugin::log('Could not render value for subfield “'.$subfield['handle'].'” ('.$e->getMessage().').', LogLevel::Error);

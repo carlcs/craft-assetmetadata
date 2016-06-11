@@ -89,7 +89,7 @@ class AssetMetadataPlugin extends BasePlugin
     public function defineAdditionalAssetTableAttributes()
     {
         $fields = craft()->fields->getFieldsByElementType('asset');
-        $attributes = array();
+        $attributes = [];
 
         foreach ($fields as $field) {
             $fieldType = $field->getFieldType();
@@ -100,9 +100,9 @@ class AssetMetadataPlugin extends BasePlugin
                 foreach ($fieldSettings->subfields as $subfield) {
                     $key = 'field:'.$field->id.':'.$subfield['handle'];
 
-                    $attributes[$key] = array(
+                    $attributes[$key] = [
                         'label' => Craft::t($subfield['name'])
-                    );
+                    ];
                 }
             }
         }
@@ -161,9 +161,9 @@ class AssetMetadataPlugin extends BasePlugin
 
                                 $defaultValues = craft()->assetMetadata_fieldType->getDefaultValues($fieldType);
 
-                                $element->setContentFromPost(array(
+                                $element->setContentFromPost([
                                     $field->handle => $defaultValues
-                                ));
+                                ]);
                             }
                         }
                     }
