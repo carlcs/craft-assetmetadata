@@ -38,6 +38,9 @@ class AssetMetadataPlugin extends BasePlugin
         return 'https://github.com/carlcs/craft-assetmetadata/raw/master/releases.json';
     }
 
+    /**
+     * Initializes the plugin.
+     */
     public function init()
     {
         require __DIR__.'/vendor/autoload.php';
@@ -67,6 +70,11 @@ class AssetMetadataPlugin extends BasePlugin
         }
     }
 
+    /**
+     * Registers the Twig extension.
+     *
+     * @return PreparseFieldTwigExtension
+     */
     public function addTwigExtension()
     {
         Craft::import('plugins.assetmetadata.twigextensions.AssetMetadataTwigExtension');
