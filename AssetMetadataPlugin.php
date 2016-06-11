@@ -50,6 +50,23 @@ class AssetMetadataPlugin extends BasePlugin
         $this->_initEventListeners();
     }
 
+    /**
+     * Make sure requirements are met before installation.
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function onBeforeInstall()
+    {
+        if (version_compare(craft()->getBuild(), '2778', '<')) {
+            throw new Exception($this->getName().' plugin requires Craft 2.6.2778 or later.');
+        }
+
+        if (!defined('PHP_VERSION') || version_compare(PHP_VERSION, '5.4', '<')) {
+            throw new Exception($this->getName().' plugin requires PHP 5.4 or later.');
+        }
+    }
+
     public function addTwigExtension()
     {
         Craft::import('plugins.assetmetadata.twigextensions.AssetMetadataTwigExtension');
