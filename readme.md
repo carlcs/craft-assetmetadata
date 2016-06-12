@@ -101,3 +101,8 @@ Converts an EXIF GPS point location into sexagesimal format (ISO 6709).
 #### formatExifDate
 
 Converts an EXIF date value into a DateTime object.
+
+## Requirements
+
+- PHP 5.4 or later
+- Craft CMS 2.6.2778 or later
