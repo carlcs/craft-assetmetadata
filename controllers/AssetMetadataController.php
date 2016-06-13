@@ -4,7 +4,7 @@ namespace Craft;
 class AssetMetadataController extends BaseController
 {
     /**
-     * Renders and returns the body of a KmlImportModal.
+     * Returns the default values for metadata subfields.
      *
      * @return null
      */
