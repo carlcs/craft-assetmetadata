@@ -38,6 +38,17 @@ class AssetMetadataPlugin extends BasePlugin
         return 'https://github.com/carlcs/craft-assetmetadata/raw/master/releases.json';
     }
 
+    // Properties
+    // =========================================================================
+
+    /**
+     * @var array
+     */
+    private $_assetTableAttributes = [];
+
+    // Public Methods
+    // =========================================================================
+
     /**
      * Initializes the plugin.
      */
@@ -107,6 +118,8 @@ class AssetMetadataPlugin extends BasePlugin
             }
         }
 
+        $this->_assetTableAttributes = $attributes;
+
         return $attributes;
     }
 
@@ -120,7 +133,7 @@ class AssetMetadataPlugin extends BasePlugin
      */
     public function getAssetTableAttributeHtml($element, $attribute)
     {
-        if (array_key_exists($attribute, $this->defineAdditionalAssetTableAttributes())) {
+        if (array_key_exists($attribute, $this->_assetTableAttributes)) {
             $parts = explode(':', $attribute);
 
             $field = craft()->fields->getFieldById($parts[1]);
