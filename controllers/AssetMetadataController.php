@@ -13,11 +13,13 @@ class AssetMetadataController extends BaseController
         $fieldId = craft()->request->getPost('fieldId');
         $elementId = craft()->request->getPost('elementId');
 
+        $field = craft()->fields->getFieldById($fieldId);
         $element = craft()->elements->getElementById($elementId);
 
-        if ($element) {
-            $field = craft()->fields->populateFieldType(craft()->fields->getFieldById($fieldId), $element);
-            $defaultValues = craft()->assetMetadata_fieldType->getDefaultValues($field);
+        if ($field && $element) {
+            $fieldType = craft()->fields->populateFieldType($field, $element);
+
+            $defaultValues = craft()->assetMetadata_fieldType->getDefaultValues($fieldType);
 
             $this->returnJson($defaultValues);
         }
