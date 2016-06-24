@@ -1,17 +1,17 @@
 [
     {
         "name": "composer/installers",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "v1.0.25",
+        "version_normalized": "1.0.25.0",
         "source": {
             "type": "git",
             "url": "https://github.com/composer/installers.git",
-            "reference": "2db1f3ce7bcf0d294811f5f0214e24d2878a57da"
+            "reference": "36e5b5843203d7f1cf6ffb0305a97e014387bd8e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/composer/installers/zipball/2db1f3ce7bcf0d294811f5f0214e24d2878a57da",
-            "reference": "2db1f3ce7bcf0d294811f5f0214e24d2878a57da",
+            "url": "https://api.github.com/repos/composer/installers/zipball/36e5b5843203d7f1cf6ffb0305a97e014387bd8e",
+            "reference": "36e5b5843203d7f1cf6ffb0305a97e014387bd8e",
             "shasum": ""
         },
         "require": {
@@ -25,7 +25,7 @@
             "composer/composer": "1.0.*@dev",
             "phpunit/phpunit": "4.1.*"
         },
-        "time": "2016-05-19 16:58:29",
+        "time": "2016-04-13 19:46:30",
         "type": "composer-plugin",
         "extra": {
             "class": "Composer\\Installers\\Plugin",
@@ -33,7 +33,7 @@
                 "dev-master": "1.0-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Composer\\Installers\\": "src/Composer/Installers"
@@ -60,7 +60,6 @@
             "MODX Evo",
             "Mautic",
             "OXID",
-            "RadPHP",
             "SMF",
             "Thelia",
             "WolfCMS",
@@ -109,18 +108,18 @@
         "source": {
             "type": "git",
             "url": "https://github.com/JamesHeinrich/getID3.git",
-            "reference": "52483a21b0f4e4fb3ad84eb0a17512be97335f9c"
+            "reference": "c2c6f5f8fbe84c6009e6f601bb09f8a7d2a1fef0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/52483a21b0f4e4fb3ad84eb0a17512be97335f9c",
-            "reference": "52483a21b0f4e4fb3ad84eb0a17512be97335f9c",
+            "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/c2c6f5f8fbe84c6009e6f601bb09f8a7d2a1fef0",
+            "reference": "c2c6f5f8fbe84c6009e6f601bb09f8a7d2a1fef0",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-06-07 21:47:32",
+        "time": "2016-06-08 18:50:07",
         "type": "library",
         "installation-source": "source",
         "autoload": {
