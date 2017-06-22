@@ -1,5 +1,13 @@
 [
   {
+    "version": "2.1.5",
+    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.5.zip",
+    "date": "2017-06-22T02:00:00+01:00",
+    "notes": [
+      "[Fixed] Fixed a bug where the `formatExifGpsCoordinates` filter was throwing exceptions for certain files."
+    ]
+  },
+  {
     "version": "2.1.4",
     "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.4.zip",
     "date": "2016-06-08T02:00:00+01:00",

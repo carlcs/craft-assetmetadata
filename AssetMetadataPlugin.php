@@ -10,7 +10,7 @@ class AssetMetadataPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '2.1.4';
+        return '2.1.5';
     }
 
     public function getSchemaVersion()
