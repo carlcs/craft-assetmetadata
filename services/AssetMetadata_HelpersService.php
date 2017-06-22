@@ -46,7 +46,7 @@ class AssetMetadata_HelpersService extends BaseApplicationComponent
             $longitude .= Craft::t($gpsData['GPSLongitudeRef']);
         }
 
-        if (!$latitude || !$longitude) {
+        if (!isset($latitude) || !isset($longitude)) {
             return;
         }
 
