@@ -10,7 +10,7 @@ class AssetMetadataPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '2.1.5';
+        return '2.1.6-beta.1';
     }
 
     public function getSchemaVersion()
@@ -72,7 +72,13 @@ class AssetMetadataPlugin extends BasePlugin
      */
     public function onBeforeInstall()
     {
-        if (version_compare(craft()->getBuild(), '2778', '<')) {
+        $version = craft()->getVersion();
+
+        if (version_compare(craft()->getVersion(), '2.6.2951', '<')) {
+            $version = craft()->getVersion() . '.' . craft()->getBuild();
+        }
+
+        if (version_compare($version, '2.6.2778', '<')) {
             throw new Exception($this->getName().' plugin requires Craft 2.6.2778 or later.');
         }
 
