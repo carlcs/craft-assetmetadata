@@ -508,6 +508,19 @@ throw new Exception('$this->overwrite_tags=false is known to be buggy in this ve
 					}
 					break;
 
+				case 'GRID':
+					if (
+						isset($valuearray['groupsymbol']) &&
+						isset($valuearray['ownerid']) &&
+						isset($valuearray['data'])
+					) {
+							$tag_data_id3v2['GRID'][] = $valuearray;
+					} else {
+						$this->errors[] = 'ID3v2 GRID data is not properly structured';
+						return false;
+					}
+					break;
+
 				case 'UFID':
 					if (isset($valuearray['ownerid']) &&
 						isset($valuearray['data'])) {
@@ -515,6 +528,17 @@ throw new Exception('$this->overwrite_tags=false is known to be buggy in this ve
 					} else {
 						$this->errors[] = 'ID3v2 UFID data is not properly structured';
 						return false;
+					}
+					break;
+
+				case 'TXXX':
+					foreach ($valuearray as $key => $txxx_data_array) {
+						if (isset($txxx_data_array['description']) && isset($txxx_data_array['data'])) {
+							$tag_data_id3v2['TXXX'][] = $txxx_data_array;
+						} else {
+							$this->errors[] = 'ID3v2 TXXX data is not properly structured';
+							return false;
+						}
 					}
 					break;
 

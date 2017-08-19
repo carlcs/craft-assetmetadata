@@ -1032,38 +1032,38 @@ class getid3_lib
 		$string = (string) $string; // in case trying to pass a numeric (float, int) string, would otherwise return an empty string
 		$HTMLstring = '';
 
-		switch ($charset) {
+		switch (strtolower($charset)) {
 			case '1251':
 			case '1252':
 			case '866':
 			case '932':
 			case '936':
 			case '950':
-			case 'BIG5':
-			case 'BIG5-HKSCS':
+			case 'big5':
+			case 'big5-hkscs':
 			case 'cp1251':
 			case 'cp1252':
 			case 'cp866':
-			case 'EUC-JP':
-			case 'EUCJP':
-			case 'GB2312':
+			case 'euc-jp':
+			case 'eucjp':
+			case 'gb2312':
 			case 'ibm866':
-			case 'ISO-8859-1':
-			case 'ISO-8859-15':
-			case 'ISO8859-1':
-			case 'ISO8859-15':
-			case 'KOI8-R':
+			case 'iso-8859-1':
+			case 'iso-8859-15':
+			case 'iso8859-1':
+			case 'iso8859-15':
+			case 'koi8-r':
 			case 'koi8-ru':
 			case 'koi8r':
-			case 'Shift_JIS':
-			case 'SJIS':
+			case 'shift_jis':
+			case 'sjis':
 			case 'win-1251':
-			case 'Windows-1251':
-			case 'Windows-1252':
+			case 'windows-1251':
+			case 'windows-1252':
 				$HTMLstring = htmlentities($string, ENT_COMPAT, $charset);
 				break;
 
-			case 'UTF-8':
+			case 'utf-8':
 				$strlen = strlen($string);
 				for ($i = 0; $i < $strlen; $i++) {
 					$char_ord_val = ord($string{$i});
@@ -1091,7 +1091,7 @@ class getid3_lib
 				}
 				break;
 
-			case 'UTF-16LE':
+			case 'utf-16le':
 				for ($i = 0; $i < strlen($string); $i += 2) {
 					$charval = self::LittleEndian2Int(substr($string, $i, 2));
 					if (($charval >= 32) && ($charval <= 127)) {
@@ -1102,7 +1102,7 @@ class getid3_lib
 				}
 				break;
 
-			case 'UTF-16BE':
+			case 'utf-16be':
 				for ($i = 0; $i < strlen($string); $i += 2) {
 					$charval = self::BigEndian2Int(substr($string, $i, 2));
 					if (($charval >= 32) && ($charval <= 127)) {
@@ -1274,14 +1274,30 @@ class getid3_lib
 							}
 							if (is_array($value) || empty($ThisFileInfo['comments'][$tagname]) || !in_array(trim($value), $ThisFileInfo['comments'][$tagname])) {
 								$value = (is_string($value) ? trim($value) : $value);
-								if (!is_numeric($key)) {
+								if (!is_int($key) && !ctype_digit($key)) {
 									$ThisFileInfo['comments'][$tagname][$key] = $value;
 								} else {
-									$ThisFileInfo['comments'][$tagname][]     = $value;
+									if (isset($ThisFileInfo['comments'][$tagname])) {
+										$ThisFileInfo['comments'][$tagname] = array($value);
+									} else {
+										$ThisFileInfo['comments'][$tagname][] = $value;
+									}
 								}
 							}
 						}
 					}
+				}
+			}
+
+			// attempt to standardize spelling of returned keys
+			$StandardizeFieldNames = array(
+				'tracknumber' => 'track_number',
+				'track'       => 'track_number',
+			);
+			foreach ($StandardizeFieldNames as $badkey => $goodkey) {
+				if (array_key_exists($badkey, $ThisFileInfo['comments']) && !array_key_exists($goodkey, $ThisFileInfo['comments'])) {
+					$ThisFileInfo['comments'][$goodkey] = $ThisFileInfo['comments'][$badkey];
+					unset($ThisFileInfo['comments'][$badkey]);
 				}
 			}
 
