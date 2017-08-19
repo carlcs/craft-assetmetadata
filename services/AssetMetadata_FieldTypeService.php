@@ -21,31 +21,33 @@ class AssetMetadata_FieldTypeService extends BaseApplicationComponent
         $settings = $field->getSettings();
         $element = $field->element;
 
-        $oldPath = craft()->path->getTemplatesPath();
-        craft()->path->setTemplatesPath(craft()->path->getSiteTemplatesPath());
+        $oldTemplateMode = craft()->templates->getTemplateMode();
+        craft()->templates->setTemplateMode(TemplateMode::Site);
 
         if ($settings->useCustomMetadataVar) {
             $twig = $settings->customMetadataVar;
             $twig .= '{{ metadata|json_encode|raw }}';
 
-            $metadata = craft()->templates->renderString($twig, array('object' => $element));
+            $metadata = craft()->templates->renderString($twig, ['object' => $element]);
             $metadata = json_decode($metadata, true);
         } else {
             $metadata = craft()->assetMetadata->getAssetMetadata($element);
         }
 
-        $defaultValues = array();
+        $defaultValues = [];
 
         foreach ($settings->subfields as $id => $subfield) {
             try {
-                $variables = array('object' => $element, 'metadata' => $metadata);
-                $defaultValues[$id] = craft()->templates->renderString($subfield['defaultValue'], $variables);
+                $twig = '{% autoescape false %}'.$subfield['defaultValue'].'{% endautoescape %}';
+                $variables = ['object' => $element, 'metadata' => $metadata];
+
+                $defaultValues[$id] = craft()->templates->renderString($twig, $variables);
             } catch (\Exception $e) {
                 AssetMetadataPlugin::log('Could not render value for subfield “'.$subfield['handle'].'” ('.$e->getMessage().').', LogLevel::Error);
             }
         }
 
-        craft()->path->setTemplatesPath($oldPath);
+        craft()->templates->setTemplateMode($oldTemplateMode);
 
         return $defaultValues;
     }

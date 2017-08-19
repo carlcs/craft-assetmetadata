@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'Title' => 'Titel',
     'Artist' => 'Interpret',
     'Album' => 'Album',
@@ -53,4 +53,4 @@ return array(
     // 'Show a refresh button' => '',
     // 'Auto-refresh field on every element save' => '',
     // 'Make field read-only' => '',
-);
+];

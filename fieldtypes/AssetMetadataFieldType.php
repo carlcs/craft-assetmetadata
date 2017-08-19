@@ -23,7 +23,7 @@ class AssetMetadataFieldType extends BaseFieldType
      */
     public function defineContentAttribute()
     {
-        return array(AttributeType::Mixed, 'column' => ColumnType::Text);
+        return [AttributeType::Mixed, 'column' => ColumnType::Text];
     }
 
     /**
@@ -33,9 +33,9 @@ class AssetMetadataFieldType extends BaseFieldType
      */
     public function getSettingsHtml()
     {
-        return craft()->templates->render('assetmetadata/fieldtypes/assetmetadata/settings', array(
+        return craft()->templates->render('assetmetadata/fieldtypes/assetmetadata/settings', [
             'settings' => $this->getSettings(),
-        ));
+        ]);
     }
 
     /**
@@ -48,7 +48,7 @@ class AssetMetadataFieldType extends BaseFieldType
      */
     public function getInputHtml($name, $values)
     {
-        return craft()->templates->render('assetmetadata/fieldtypes/assetmetadata/input', array(
+        return craft()->templates->render('assetmetadata/fieldtypes/assetmetadata/input', [
             'id'        => craft()->templates->formatInputId($name),
             'name'      => $name,
             'values'    => $values,
@@ -56,7 +56,7 @@ class AssetMetadataFieldType extends BaseFieldType
 
             'fieldId'   => $this->model->id,
             'elementId' => $this->element->id,
-        ));
+        ]);
     }
 
     /**
@@ -90,13 +90,13 @@ class AssetMetadataFieldType extends BaseFieldType
      */
     protected function defineSettings()
     {
-        return array(
-            'subfields'            => array(AttributeType::Mixed, 'default' => array(array('name' => '', 'handle' => '', 'defaultValue' => ''))),
-            'useCustomMetadataVar' => array(AttributeType::Bool, 'default' => false),
-            'customMetadataVar'    => array(AttributeType::String, 'default' => ''),
-            'readonly'             => array(AttributeType::Bool, 'default' => false),
-            'showRefreshButton'    => array(AttributeType::Bool, 'default' => false),
-            'refreshOnElementSave' => array(AttributeType::Bool, 'default' => false),
-        );
+        return [
+            'subfields'            => [AttributeType::Mixed, 'default' => [['name' => '', 'handle' => '', 'defaultValue' => '']]],
+            'useCustomMetadataVar' => [AttributeType::Bool, 'default' => false],
+            'customMetadataVar'    => [AttributeType::String, 'default' => ''],
+            'readonly'             => [AttributeType::Bool, 'default' => false],
+            'showRefreshButton'    => [AttributeType::Bool, 'default' => false],
+            'refreshOnElementSave' => [AttributeType::Bool, 'default' => false],
+        ];
     }
 }

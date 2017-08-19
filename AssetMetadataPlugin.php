@@ -38,6 +38,20 @@ class AssetMetadataPlugin extends BasePlugin
         return 'https://github.com/carlcs/craft-assetmetadata/raw/master/releases.json';
     }
 
+    // Properties
+    // =========================================================================
+
+    /**
+     * @var array
+     */
+    private $_assetTableAttributes = [];
+
+    // Public Methods
+    // =========================================================================
+
+    /**
+     * Initializes the plugin.
+     */
     public function init()
     {
         require __DIR__.'/vendor/autoload.php';
@@ -50,6 +64,28 @@ class AssetMetadataPlugin extends BasePlugin
         $this->_initEventListeners();
     }
 
+    /**
+     * Make sure requirements are met before installation.
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function onBeforeInstall()
+    {
+        if (version_compare(craft()->getBuild(), '2778', '<')) {
+            throw new Exception($this->getName().' plugin requires Craft 2.6.2778 or later.');
+        }
+
+        if (!defined('PHP_VERSION') || version_compare(PHP_VERSION, '5.4', '<')) {
+            throw new Exception($this->getName().' plugin requires PHP 5.4 or later.');
+        }
+    }
+
+    /**
+     * Registers the Twig extension.
+     *
+     * @return PreparseFieldTwigExtension
+     */
     public function addTwigExtension()
     {
         Craft::import('plugins.assetmetadata.twigextensions.AssetMetadataTwigExtension');
@@ -64,7 +100,7 @@ class AssetMetadataPlugin extends BasePlugin
     public function defineAdditionalAssetTableAttributes()
     {
         $fields = craft()->fields->getFieldsByElementType('asset');
-        $attributes = array();
+        $attributes = [];
 
         foreach ($fields as $field) {
             $fieldType = $field->getFieldType();
@@ -75,12 +111,14 @@ class AssetMetadataPlugin extends BasePlugin
                 foreach ($fieldSettings->subfields as $subfield) {
                     $key = 'field:'.$field->id.':'.$subfield['handle'];
 
-                    $attributes[$key] = array(
+                    $attributes[$key] = [
                         'label' => Craft::t($subfield['name'])
-                    );
+                    ];
                 }
             }
         }
+
+        $this->_assetTableAttributes = $attributes;
 
         return $attributes;
     }
@@ -95,7 +133,7 @@ class AssetMetadataPlugin extends BasePlugin
      */
     public function getAssetTableAttributeHtml($element, $attribute)
     {
-        if (array_key_exists($attribute, $this->defineAdditionalAssetTableAttributes())) {
+        if (array_key_exists($attribute, $this->_assetTableAttributes)) {
             $parts = explode(':', $attribute);
 
             $field = craft()->fields->getFieldById($parts[1]);
@@ -136,9 +174,9 @@ class AssetMetadataPlugin extends BasePlugin
 
                                 $defaultValues = craft()->assetMetadata_fieldType->getDefaultValues($fieldType);
 
-                                $element->setContentFromPost(array(
+                                $element->setContentFromPost([
                                     $field->handle => $defaultValues
-                                ));
+                                ]);
                             }
                         }
                     }

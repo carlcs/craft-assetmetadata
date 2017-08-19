@@ -20,9 +20,9 @@ class AssetMetadataTwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('getAssetMetadata', array(craft()->assetMetadata, 'getAssetMetadata')),
-        );
+        return [
+            new \Twig_SimpleFunction('getAssetMetadata', [craft()->assetMetadata, 'getAssetMetadata']),
+        ];
     }
 
     /**
@@ -32,14 +32,14 @@ class AssetMetadataTwigExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('formatExifDate', array(craft()->assetMetadata_helpers, 'formatExifDate')),
-            new \Twig_SimpleFilter('formatExifGpsCoordinates', array(craft()->assetMetadata_helpers, 'formatExifGpsCoordinates'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('formatExifGpsCoordinate', array(craft()->assetMetadata_helpers, 'formatExifGpsCoordinate'), array('is_safe' => array('html'))),
+        return [
+            new \Twig_SimpleFilter('formatExifDate', [craft()->assetMetadata_helpers, 'formatExifDate']),
+            new \Twig_SimpleFilter('formatExifGpsCoordinates', [craft()->assetMetadata_helpers, 'formatExifGpsCoordinates'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFilter('formatExifGpsCoordinate', [craft()->assetMetadata_helpers, 'formatExifGpsCoordinate'], ['is_safe' => ['html']]),
 
-            new \Twig_SimpleFilter('unitPrefix', array(craft()->assetMetadata_helpers, 'unitPrefix')),
-            new \Twig_SimpleFilter('fractionToFloat', array(craft()->assetMetadata_helpers, 'fractionToFloat')),
-            new \Twig_SimpleFilter('floatToFraction', array(craft()->assetMetadata_helpers, 'floatToFraction')),
-        );
+            new \Twig_SimpleFilter('unitPrefix', [craft()->assetMetadata_helpers, 'unitPrefix']),
+            new \Twig_SimpleFilter('fractionToFloat', [craft()->assetMetadata_helpers, 'fractionToFloat']),
+            new \Twig_SimpleFilter('floatToFraction', [craft()->assetMetadata_helpers, 'floatToFraction']),
+        ];
     }
 }
