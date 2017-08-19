@@ -42,7 +42,10 @@ class AssetMetadataService extends BaseApplicationComponent
             $metadata = $getId3->analyze($path);
             IOHelper::deleteFile($path);
         } else {
-            $path = $sourceType->getImageSourcePath($asset);
+            $folder = craft()->assets->getFolderById($asset->folderId);
+            $path = $sourceType->getBasePath().$folder->path.$asset->filename;
+            $path = IOHelper::getRealPath($path);
+
             $metadata = $getId3->analyze($path);
         }
 
