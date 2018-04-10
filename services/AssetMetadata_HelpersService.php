@@ -13,18 +13,17 @@ class AssetMetadata_HelpersService extends BaseApplicationComponent
      *
      * @return DateTime/null
      */
-    public function formatExifDate($date)
+    public function formatExifDate($dateString)
     {
-        $date = explode(' ', $date);
-
-        if (count($date) > 1) {
-            $date[0] = str_replace(':', '-', $date[0]);
-            $date = implode($date, ' ');
+        $parts = explode(' ', $dateString);
+    
+        if (count($parts) !== 2) {
+            return null;
         }
-
-        $date = date($date);
-
-        return $date ? $date : null;
+    
+        $parts[0] = str_replace(':', '-', $parts[0]);
+    
+        return date(implode($parts, ' '));
     }
 
     /**
