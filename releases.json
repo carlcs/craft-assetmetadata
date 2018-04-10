@@ -1,5 +1,13 @@
 [
   {
+    "version": "2.1.7",
+    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.7.zip",
+    "date": "2018-04-10T19:00:00+01:00",
+    "notes": [
+      "[Fixed] Fixed a bug with the `formatExifDate` Twig filter."
+    ]
+  },
+  {
     "version": "2.1.6",
     "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.1.6.zip",
     "date": "2017-08-20T09:00:00+01:00",
