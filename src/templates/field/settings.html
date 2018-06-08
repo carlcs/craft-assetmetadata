@@ -1,0 +1,49 @@
+{% import '_includes/forms' as forms %}
+
+{{ forms.editableTableField({
+    label: 'Subfields'|t('asset-metadata'),
+    instructions: 'Define the subfields this field should have.'|t('asset-metadata'),
+    warning: field.id ? 'Deleting a subfield, or changing a subfield’s handle may result in data loss.'|t('asset-metadata'),
+    id: 'subfields',
+    name: 'subfields',
+    addRowLabel: 'Add a subfield'|t('asset-metadata'),
+    cols: {
+        name: {
+            heading: 'Name'|t('asset-metadata'),
+            type: 'singleline',
+            autopopulate: 'handle'
+        },
+        handle: {
+            heading: 'Handle'|t('asset-metadata'),
+            type: 'singleline',
+            class: 'code'
+        },
+        template: {
+            heading: 'Default Value Template'|t('asset-metadata'),
+            info: 'Defines the default value for the subfield for newly uploaded Assets or when values are refreshed.{br}See [Default Value Template]({docUrl}) for details and examples.'|t('asset-metadata', {
+                docUrl: 'https://github.com/carlcs/craft-assetmetadata',
+                br: '</p><p>',
+            }),
+            type: 'multiline',
+            class: 'code',
+            width: '60%'
+        }
+    },
+    rows: field.subfields
+}) }}
+
+{{ forms.checkboxField({
+    label: 'Make read-only'|t('asset-metadata'),
+    name: 'readOnly',
+    checked: field.readOnly,
+}) }}
+
+<hr>
+<a class="fieldtoggle" data-target="advanced">{{ "Advanced"|t('app') }}</a>
+<div id="advanced" class="hidden">
+    {{ forms.checkboxField({
+        label: 'Refresh on element save'|t('asset-metadata'),
+        name: 'refreshOnElementSave',
+        checked: field.refreshOnElementSave,
+    }) }}
+</div>

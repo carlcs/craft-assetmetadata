@@ -1,0 +1,24 @@
+.assetmetadata {
+    &-subfield-heading {
+        margin-bottom: 3px;
+
+        & label {
+            font-size: 11px;
+            line-height: 1.4;
+            color: #8f98a3;
+        }
+    }
+
+    &-subfield input[readonly] {
+        color: #5D7692;
+        border: 1px solid rgba(0, 0, 20, 0.1) !important;
+    }
+
+    &-subfield + &-subfield {
+        margin-top: 7px;
+    }
+
+    &-subfield + .btn.assetmetadata-refresh {
+        margin-top: 14px;
+    }
+}

@@ -1,0 +1,37 @@
+{% import '_includes/forms' as forms %}
+
+<div class="assetmetadata-field">
+    {% for id, subfield in field.subfields %}
+        <div class="assetmetadata-subfield">
+            <div class="assetmetadata-subfield-heading">
+                <label>{{ subfield.name|t('asset-metadata') }}</label>
+            </div>
+
+            {{ forms.text({
+                id: null,
+                name: name~'['~id~']',
+                value: value[id] ?? '',
+                class: 'nicetext',
+                readonly: field.readOnly
+            }) }}
+        </div>
+    {% endfor %}
+
+    {% if showRefreshButton %}
+        <div class="assetmetadata-refresh btn">{{ 'Refresh'|t('asset-metadata') }}</div>
+        <div class="spinner hidden"></div>
+    {% endif %}
+</div>
+
+{% if showRefreshButton %}
+    {% set settings = {
+        id: id|namespaceInputId,
+        name: name|namespaceInputName,
+        fieldId: field.id,
+        elementId: element.id,
+    } %}
+
+    {% js %}
+        new Craft.AssetMetadata.Field({{ settings|json_encode|raw }});
+    {% endjs %}
+{% endif %}
