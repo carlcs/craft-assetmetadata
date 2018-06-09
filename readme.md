@@ -1,6 +1,6 @@
 # Asset Metadata plugin for Craft CMS
 
-![Asset Metadata](https://github.com/carlcs/craft-assetmetadata/blob/master/resources/screenshot.png)
+![Asset Metadata](https://github.com/carlcs/craft-assetmetadata/blob/v2/resources/screenshot.png)
 
 The plugin provides a configurable field type to extract and store metadata from an asset on element save into subfields. The subfields are user editable, so it's possible to complete missing data or correct values to your own requirements.
 
@@ -20,7 +20,7 @@ $ composer require carlcs/craft-assetmetadata
 When you access the "metadata" variable from the field type or directly use the plugin's `getAssetMetadata` function in the template, you are dealing with data returned from getID3 by James Heinrich. The complete data structure is [documented in its repository][1] on GitHub.
 
 
-  [1]: https://github.com/JamesHeinrich/getID3/blob/master/structure.txt
+  [1]: https://github.com/JamesHeinrich/getID3/blob/v2/structure.txt
 
 ## Asset Metadata Field Type
 

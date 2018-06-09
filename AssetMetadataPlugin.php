@@ -35,7 +35,7 @@ class AssetMetadataPlugin extends BasePlugin
 
     public function getReleaseFeedUrl()
     {
-        return 'https://github.com/carlcs/craft-assetmetadata/raw/master/releases.json';
+        return 'https://github.com/carlcs/craft-assetmetadata/raw/v2/releases.json';
     }
 
     // Properties
