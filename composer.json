@@ -22,14 +22,9 @@
     "issues": "https://github.com/carlcs/craft-deleteentryversions/issues?state=open",
     "source": "https://github.com/carlcs/craft-deleteentryversions",
     "docs": "https://github.com/carlcs/craft-deleteentryversions",
-    "rss": "https://github.com/carlcs/craft-deleteentryversions/commits/v2.atom"
+    "rss": "https://github.com/carlcs/craft-deleteentryversions/commits/v3.atom"
   },
   "require": {
-<<<<<<< HEAD
-    "composer/installers": "~1.0",
-    "php": ">=5.4.0",
-    "james-heinrich/getid3": "^1.9"
-=======
     "craftcms/cms": "^3.0.0",
     "carlcs/craft-commons": "^1.0.0",
     "james-heinrich/getid3": "^1.9.15"
@@ -42,8 +37,7 @@
   "extra": {
     "name": "Asset Metadata",
     "handle": "asset-metadata",
-    "changelogUrl": "https://github.com/carlcs/craft-assetmetadata/raw/v2/CHANGELOG.md",
-    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v2.zip"
->>>>>>> v3
+    "changelogUrl": "https://github.com/carlcs/craft-assetmetadata/raw/v3/CHANGELOG.md",
+    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v3.zip"
   }
 }
