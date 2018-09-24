@@ -1,7 +1,7 @@
 {
   "name": "carlcs/craft-assetmetadata",
   "description": "Asset Metadata plugin for Craft CMS",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "type": "craft-plugin",
   "keywords": [
     "asset",
@@ -21,8 +21,7 @@
   "support": {
     "issues": "https://github.com/carlcs/craft-deleteentryversions/issues?state=open",
     "source": "https://github.com/carlcs/craft-deleteentryversions",
-    "docs": "https://github.com/carlcs/craft-deleteentryversions",
-    "rss": "https://github.com/carlcs/craft-deleteentryversions/commits/v3.atom"
+    "docs": "https://github.com/carlcs/craft-deleteentryversions"
   },
   "require": {
     "craftcms/cms": "^3.0.0",
@@ -35,9 +34,7 @@
     }
   },
   "extra": {
-    "name": "Asset Metadata",
     "handle": "asset-metadata",
-    "changelogUrl": "https://github.com/carlcs/craft-assetmetadata/raw/v3/CHANGELOG.md",
-    "downloadUrl": "https://github.com/carlcs/craft-assetmetadata/archive/v3.zip"
+    "name": "Asset Metadata"
   }
 }

@@ -3,17 +3,22 @@
 namespace carlcs\assetmetadata\migrations;
 
 use carlcs\assetmetadata\fields\AssetMetadata as AssetMetadataField;
+use Craft;
 use craft\db\Migration;
 use craft\db\Query;
-use yii\helpers\Json;
+use craft\helpers\Json;
 
-class m180529_000000_craft3 extends Migration
+class m180919_000000_craft3 extends Migration
 {
     /**
      * @inheritdoc
      */
     public function safeUp()
     {
+        if (Craft::$app->getMigrator()->hasRun('m180529_000000_craft3')) {
+            return true;
+        }
+
         $this->update('{{%fields}}', ['type' => AssetMetadataField::class], ['type' => 'AssetMetadata']);
 
         $fields = (new Query())
@@ -26,15 +31,15 @@ class m180529_000000_craft3 extends Migration
             $settings = Json::decode($field['settings']);
 
             if (is_array($settings['subfields'])) {
-                $newsubfields = [];
-                foreach ($settings['subfields'] as $subfield) {
-                    $newsubfields[] = [
+                $newSubfields = [];
+                foreach ($settings['subfields'] as $key => $subfield) {
+                    $newSubfields[$key] = [
                         'name' => $subfield['name'],
                         'handle' => $subfield['handle'],
                         'template' => $subfield['defaultValue'],
                     ];
                 }
-                $settings['subfields'] = $newsubfields;
+                $settings['subfields'] = $newSubfields;
             }
 
             $settings['readOnly'] = $settings['readonly'];

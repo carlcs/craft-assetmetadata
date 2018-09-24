@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.0-beta.2 - 2018-09-19
+
+### Fixed
+- Fixed an issue with the Craft 3 migration.
+
 ## 3.0.0-beta.1 - 2018-06-10
 
 ### Added
