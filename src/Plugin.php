@@ -15,6 +15,8 @@ use craft\events\SetElementTableAttributeHtmlEvent;
 use craft\services\Fields;
 use craft\web\twig\variables\CraftVariable;
 use yii\base\Event;
+use markhuot\CraftQL\CraftQL;
+use markhuot\CraftQL\Events\GetFieldSchema;
 
 /**
  * @property Metadata $metadata
@@ -62,6 +64,9 @@ class Plugin extends \craft\base\Plugin
         Event::on(CraftVariable::class, CraftVariable::EVENT_INIT, [$this, 'extendCraftVariable']);
         Event::on(Asset::class, Element::EVENT_REGISTER_TABLE_ATTRIBUTES, [$this, 'handleRegisterAssetTableAttributes']);
         Event::on(Asset::class, Element::EVENT_SET_TABLE_ATTRIBUTE_HTML, [$this, 'handleSetAssetTableAttributeHtml']);
+        if (class_exists(CraftQL::class)) {
+            Event::on(AssetMetadataField::class, 'craftQlGetFieldSchema', [$this, 'handleGetCraftQLSchema']);
+        }
     }
 
     /**
@@ -126,6 +131,28 @@ class Plugin extends \craft\base\Plugin
                 $event->html = $fieldValue[$subfieldHandle];
             }
         }
+    }
+
+    /**
+     *  Adds the fieldtype to the craftQL Schema
+     *
+     * @param GetFieldSchema $event
+     */
+    public function handleGetCraftQLSchema(GetFieldSchema $event)
+    {
+        $event->handled = true;
+        $field = $event->sender;
+        $object = $event->schema->createObjectType('AssetMetaData');
+
+        // add subfields
+        if ($field instanceof AssetMetadataField && is_array($field->subfields)) {
+            foreach ($field->subfields as $subfield) {
+                $object->addStringField($subfield['handle']);
+            }
+        }
+
+        // add AssetMetaData field to schema
+        $event->schema->addField($field)->type($object);
     }
 
     /**
