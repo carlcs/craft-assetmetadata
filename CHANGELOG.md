@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+- Fixed a bug where fields weren’t editable even if the “Make read-only” setting was disabled.
+
 ## 3.0.0-beta.2 - 2018-09-19
 
 ### Fixed

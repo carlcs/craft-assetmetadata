@@ -12,18 +12,18 @@
                 name: name~'['~id~']',
                 value: value[id] ?? '',
                 class: 'nicetext',
-                readonly: field.readOnly
+                readonly: readOnly
             }) }}
         </div>
     {% endfor %}
 
-    {% if showRefreshButton %}
+    {% if not readOnly %}
         <div class="assetmetadata-refresh btn">{{ 'Refresh'|t('asset-metadata') }}</div>
         <div class="spinner hidden"></div>
     {% endif %}
 </div>
 
-{% if showRefreshButton %}
+{% if not readOnly %}
     {% set settings = {
         id: id|namespaceInputId,
         name: name|namespaceInputName,

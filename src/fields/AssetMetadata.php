@@ -102,7 +102,7 @@ class AssetMetadata extends Field
             'value'   => $value,
             'field'   => $this,
             'element' => $element,
-            'showRefreshButton' => !$this->readOnly,
+            'readOnly' => (bool)$this->readOnly,
         ]);
     }
 
