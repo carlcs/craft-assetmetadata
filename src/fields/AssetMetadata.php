@@ -2,6 +2,7 @@
 
 namespace carlcs\assetmetadata\fields;
 
+use carlcs\assetmetadata\gql\AssetMetadataTypeGenerator;
 use carlcs\assetmetadata\Plugin;
 use carlcs\assetmetadata\web\assets\FieldAsset;
 use Craft;
@@ -13,6 +14,7 @@ use yii\db\Schema;
 
 /**
  * @property string $contentColumnType
+ * @property mixed $contentGqlType
  * @property mixed $settingsHtml
  */
 class AssetMetadata extends Field
@@ -163,5 +165,14 @@ class AssetMetadata extends Field
         }
 
         return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getContentGqlType()
+    {
+        $typeArray = AssetMetadataTypeGenerator::generateTypes($this);
+        return array_pop($typeArray);
     }
 }

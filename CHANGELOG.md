@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Added
+- Added GraphQL support.
+
 ### Fixed
 - Fixed a bug where fields weren’t editable even if the “Make read-only” setting was disabled.
 
