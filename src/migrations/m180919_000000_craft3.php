@@ -10,10 +10,7 @@ use craft\helpers\Json;
 
 class m180919_000000_craft3 extends Migration
 {
-    /**
-     * @inheritdoc
-     */
-    public function safeUp()
+    public function safeUp(): bool
     {
         if (Craft::$app->getMigrator()->hasRun('m180529_000000_craft3')) {
             return true;
@@ -52,10 +49,7 @@ class m180919_000000_craft3 extends Migration
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function safeDown()
+    public function safeDown(): bool
     {
         echo "m180529_000000_craft3 cannot be reverted.\n";
         return false;

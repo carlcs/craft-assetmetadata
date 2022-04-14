@@ -19,14 +19,11 @@ class ExtractController extends Controller
     /**
      * @var string|null The key to access the metadata array with dot notation.
      */
-    public $key;
+    public ?string $key = null;
 
     // Public Methods
     // =========================================================================
 
-    /**
-     * @inheritdoc
-     */
     public function options($actionID): array
     {
         $options = parent::options($actionID);
@@ -37,14 +34,12 @@ class ExtractController extends Controller
 
     /**
      * Extracts and displays metadata for an Asset.
-     *
-     * @param int $elementId The Asset’s element ID
      */
     public function actionIndex(int $elementId)
     {
         $asset = Craft::$app->getElements()->getElementById($elementId);
 
-        if (!$asset || !($asset instanceof Asset)) {
+        if (!($asset instanceof Asset)) {
             $this->stdout("No Asset exists with the ID {$elementId}.".PHP_EOL, Console::FG_YELLOW);
             return;
         }

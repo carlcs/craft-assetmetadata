@@ -7,9 +7,6 @@ use craft\web\assets\cp\CpAsset;
 
 class FieldAsset extends AssetBundle
 {
-    /**
-     * @inheritdoc
-     */
     public function init()
     {
         $this->sourcePath = __DIR__.'/dist';

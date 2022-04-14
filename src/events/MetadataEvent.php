@@ -11,18 +11,7 @@ class MetadataEvent extends Event
     // Properties
     // =========================================================================
 
-    /**
-     * @var array The metadata
-     */
-    public $metadata;
-
-    /**
-     * @var Asset The Asset the metadata is extracted from
-     */
-    public $asset;
-
-    /**
-     * @var AssetMetadata|null The field the metadata is stored into.
-     */
-    public $field;
+    public array $metadata;
+    public Asset $asset;
+    public ?AssetMetadata $field = null;
 }

@@ -2,8 +2,9 @@
 
 namespace carlcs\assetmetadata\helpers;
 
-use carlcs\commons\helpers\NumberHelper;
 use Craft;
+use DateTime;
+use DateTimeZone;
 use yii\base\InvalidArgumentException;
 
 class ExifHelper
@@ -13,12 +14,8 @@ class ExifHelper
 
     /**
      * Converts an EXIF date/time string into a DateTime object.
-     *
-     * @param string $dateString
-     * @param \DateTimeZone|null $timezone
-     * @return \DateTime
      */
-    public static function convertExifDate(string $dateString, \DateTimeZone $timezone = null): \DateTime
+    public static function convertExifDate(string $dateString, DateTimeZone $timezone = null): DateTime
     {
         if (!preg_match('/(\d{4}:\d{2}:\d{2}) (\d{2}:\d{2}:\d{2})/', $dateString, $matches)) {
             throw new InvalidArgumentException('$dateString should be a valid EXIF date/time string.');
@@ -26,17 +23,13 @@ class ExifHelper
 
         $dateString = str_replace(':', '-', $matches[1]).' '.$matches[2];
 
-        return new \DateTime($dateString, $timezone);
+        return new DateTime($dateString, $timezone);
     }
 
     /**
      * Converts a GPS point location from EXIF GPS data.
-     *
-     * @param array $exif
-     * @param string|bool $format
-     * @return array|string
      */
-    public static function convertExifGpsCoordinates(array $exif, $format = false)
+    public static function convertExifGpsCoordinates(array $exif, bool|string $format): array|string
     {
         $latitude = self::convertExifGpsCoordinate($exif, self::GPS_LAT, $format);
         $longitude = self::convertExifGpsCoordinate($exif, self::GPS_LONG, $format);
@@ -45,19 +38,14 @@ class ExifHelper
             return compact('latitude', 'longitude');
         }
 
-        return "{$latitude} {$longitude}";
+        return "$latitude $longitude";
     }
 
     /**
      * Converts a single GPS coordinate from EXIF GPS data to decimal format or
      * sexagesimal format (ISO 6709).
-     *
-     * @param array $exif
-     * @param string $axis
-     * @param string|bool $format
-     * @return string|float
      */
-    public static function convertExifGpsCoordinate(array $exif, string $axis, $format = false)
+    public static function convertExifGpsCoordinate(array $exif, string $axis, bool|string $format): float|int|string
     {
         $coordMap = [
             self::GPS_LAT => ['dms' => 'GPSLatitude', 'ref' => 'GPSLatitudeRef'],
@@ -93,11 +81,6 @@ class ExifHelper
 
     /**
      * Formats a single GPS coordinate in sexagesimal format (ISO 6709).
-     *
-     * @param float $value
-     * @param string $axis
-     * @param string|null $format
-     * @return string
      */
     public static function formatGpsCoordinate(float $value, string $axis, string $format = null): string
     {

@@ -3,24 +3,23 @@
 namespace carlcs\assetmetadata\web\twig;
 
 use carlcs\assetmetadata\helpers\ExifHelper;
-use carlcs\commons\helpers\NumberHelper;
+use carlcs\assetmetadata\helpers\NumberHelper;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
-class Extension extends \Twig_Extension
+class Extension extends AbstractExtension
 {
-    /**
-     * @inheritdoc
-     */
     public function getFilters(): array
     {
         return [
-            new \Twig_Filter('convertExifDate', [ExifHelper::class, 'convertExifDate']),
-            new \Twig_Filter('convertExifGpsCoordinates', [ExifHelper::class, 'convertExifGpsCoordinates']),
-            new \Twig_Filter('convertExifGpsCoordinate', [ExifHelper::class, 'convertExifGpsCoordinate']),
-            new \Twig_Filter('formatGpsCoordinate', [ExifHelper::class, 'formatGpsCoordinate']),
-            new \Twig_Filter('numeralSystem', [NumberHelper::class, 'numeralSystem']),
-            new \Twig_Filter('unitPrefix', [NumberHelper::class, 'unitPrefix']),
-            new \Twig_Filter('fractionToFloat', [NumberHelper::class, 'fractionToFloat']),
-            new \Twig_Filter('floatToFraction', [NumberHelper::class, 'floatToFraction']),
+            new TwigFilter('convertExifDate', [ExifHelper::class, 'convertExifDate']),
+            new TwigFilter('convertExifGpsCoordinates', [ExifHelper::class, 'convertExifGpsCoordinates']),
+            new TwigFilter('convertExifGpsCoordinate', [ExifHelper::class, 'convertExifGpsCoordinate']),
+            new TwigFilter('formatGpsCoordinate', [ExifHelper::class, 'formatGpsCoordinate']),
+            new TwigFilter('numeralSystem', [NumberHelper::class, 'numeralSystem']),
+            new TwigFilter('unitPrefix', [NumberHelper::class, 'unitPrefix']),
+            new TwigFilter('fractionToFloat', [NumberHelper::class, 'fractionToFloat']),
+            new TwigFilter('floatToFraction', [NumberHelper::class, 'floatToFraction']),
         ];
     }
 }

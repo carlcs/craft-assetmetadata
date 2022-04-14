@@ -4,13 +4,15 @@ namespace carlcs\assetmetadata\services;
 
 use carlcs\assetmetadata\events\MetadataEvent;
 use carlcs\assetmetadata\fields\AssetMetadata;
+use carlcs\assetmetadata\helpers\ArrayHelper;
 use carlcs\assetmetadata\Plugin;
-use carlcs\commons\helpers\ArrayHelper;
 use Craft;
 use craft\base\Component;
-use craft\base\LocalVolumeInterface;
 use craft\elements\Asset;
+use craft\fs\Local;
 use craft\helpers\FileHelper;
+use craft\web\View;
+use Exception;
 use getID3;
 use getid3_lib;
 use yii\base\Event;
@@ -23,74 +25,52 @@ class Metadata extends Component
     // Constants
     // =========================================================================
 
-    /**
-     * @event AfterAnalyseEvent The event that is triggered after an Asset’s metadata is extracted.
-     */
     const EVENT_AFTER_EXTRACT = 'afterExtract';
 
     // Properties
     // =========================================================================
 
-    /**
-     * @var getID3|null
-     */
-    private $_getId3;
+    private ?getID3 $_getId3 = null;
 
     // Public Methods
     // =========================================================================
 
     /**
      * Returns the field value for an Asset Metadata field.
-     *
-     * @param AssetMetadata $field
-     * @param Asset $asset
-     * @return array
      */
     public function getFieldValue(AssetMetadata $field, Asset $asset): array
     {
-        $view = Craft::$app->getView();
-        $oldTemplateMode = $view->getTemplateMode();
-        $view->setTemplateMode($view::TEMPLATE_MODE_SITE);
-
         $metadata = $this->extract($asset, null, $field);
 
         $value = [];
-
         foreach ($field->subfields as $id => $subfield) {
             try {
                 $twig = '{% autoescape false %}'.$subfield['template'].'{% endautoescape %}';
                 $variables = ['object' => $asset, 'metadata' => $metadata];
 
-                $value[$id] = $view->renderString($twig, $variables);
-            } catch (\Exception $e) {
+                $value[$id] = Craft::$app->getView()->renderString($twig, $variables, View::TEMPLATE_MODE_SITE);
+            } catch (Exception $e) {
                 Craft::error('Error rendering the template for "'.$field->handle.':'.$subfield['handle'].'": '.$e->getMessage(), __METHOD__);
             }
         }
-
-        $view->setTemplateMode($oldTemplateMode);
 
         return $value;
     }
 
     /**
      * Extracts the metadata from an Asset.
-     *
-     * @param Asset $asset
-     * @param string|null $key
-     * @param AssetMetadata|null $field
-     * @return array|string
      */
-    public function extract(Asset $asset, $key = null, $field = null)
+    public function extract(Asset $asset, string $key = null, AssetMetadata $field = null): array|string
     {
-        $volume = $asset->getVolume();
+        $fs = $asset->getVolume()->getFs();
         $deleteTempFile = false;
 
         if ($asset->tempFilePath !== null) {
             // New Asset currently being uploaded
             $path = $asset->tempFilePath;
-        } elseif ($volume instanceof LocalVolumeInterface) {
+        } elseif ($fs instanceof Local) {
             // Asset on a local Asset Volume
-            $path = FileHelper::normalizePath($volume->getRootPath().DIRECTORY_SEPARATOR.$asset->getPath());
+            $path = FileHelper::normalizePath($fs->getRootPath().DIRECTORY_SEPARATOR.$asset->getPath());
         } else {
             // Asset on a remote Asset Volume
             $path = $this->getTempCopyOfFile($asset);
@@ -132,9 +112,6 @@ class Metadata extends Component
 
     /**
      * Returns a temporary copy of an Asset’s file, or a chunk of it.
-     *
-     * @param Asset $asset
-     * @return string
      */
     protected function getTempCopyOfFile(Asset $asset): string
     {
@@ -174,8 +151,6 @@ class Metadata extends Component
 
     /**
      * Returns a configured getID3 instance.
-     *
-     * @return getID3
      */
     protected function getGetId3(): getID3
     {
